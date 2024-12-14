@@ -100,10 +100,6 @@ Here is a structured list of features I plan to implement. Each feature will be 
 
   - Generate and download reports (PDF/Excel) for activity logs or tasks
 
-- **API Testing Tab**
-
-  - Interactive tab to test backend APIs (similar to Postman)
-
 ---
 
 ## **Project Structure**
@@ -134,7 +130,7 @@ Each backend implements:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/multi-backend-app.git
+   git clone https://github.com/maiko26/multi-backend-app.git
    cd multi-backend-app
    ```
 2. Install dependencies:
@@ -154,9 +150,9 @@ npm run dev
 
 Each backend is in its respective folder:
 
-- `backend-express` for Node.js
-- `backend-springboot` for Java
-- `backend-dotnet` for ASP.NET Core
+- `backend/express` for Node.js
+- `backend/springboot` for Java
+- `backend/dotnet` for ASP.NET Core
 
 Follow the README instructions in each backend directory to set up and run the API.
 
@@ -186,7 +182,7 @@ Follow the README instructions in each backend directory to set up and run the A
 
 | Feature                        | Backend-Express | Backend-SpringBoot | Backend-DotNet |
 | ------------------------------ | --------------- | ------------------ | -------------- |
-| Authentication System          | 🚧 In Progress  | 🔜 Not Started     | 🔜 Not Started |
+| Authentication System          | ✅ Completed    | 🚧 In Progress     | 🔜 Not Started |
 | User Profile Management        | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | TODO CRUD API                  | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | Real-Time WebSocket Chat       | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
