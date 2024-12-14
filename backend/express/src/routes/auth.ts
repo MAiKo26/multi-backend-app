@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import {eq} from "drizzle-orm";
+import {sql, eq, gt} from "drizzle-orm";
 import {NextFunction, Request, Response, Router} from "express";
 import jwt from "jsonwebtoken";
 import {db} from "../db/db.ts";
@@ -17,14 +17,50 @@ router.post(
   "/login",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const {email, password} = req.body;
+      const {email, password} = req.body as {email: string; password: string};
+      const date = new Date();
 
       const user = await db.query.users.findFirst({
-        where: eq(users.email, email),
+        where: eq(users.email, email.toLowerCase()),
       });
 
-      if (!user || !(await bcrypt.compare(password, user.password))) {
-        res.status(401).json({message: "Invalid credentials"});
+      if (!user) {
+        res.status(400).json({message: "Invalid email"});
+        return;
+      }
+
+      if (user.accountLockedUntil && user.accountLockedUntil > date) {
+        res.status(401).json({
+          message:
+            "Account locked, try again in " +
+            user.accountLockedUntil.getTime() / 1000 +
+            "s",
+        });
+        return;
+      }
+
+      if (!(await bcrypt.compare(password, user.password))) {
+        await db
+          .update(users)
+          .set({failedLoginAttempts: sql`${user.failedLoginAttempts} + 1`})
+          .where(eq(users.email, user.email));
+
+        if (user.failedLoginAttempts >= 5) {
+          await db
+            .update(users)
+            .set({
+              accountLockedUntil: new Date(Date.now() + 15 * 60 * 1000), // 15 min lock
+              failedLoginAttempts: 0,
+            })
+            .where(eq(users.email, user.email));
+
+          res.status(401).json({
+            message: "Invalid login attempt. Please try again later.",
+          });
+          return;
+        }
+
+        res.status(401).json({message: "Invalid password, Try Again."});
         return;
       }
 
@@ -33,21 +69,30 @@ router.post(
         return;
       }
 
-      await db.query.sessions.findFirst({
+      const session = await db.query.sessions.findFirst({
         where: eq(sessions.email, user.email),
       });
 
-      const token = jwt.sign({email: user.email}, secret, {
-        expiresIn: "1h",
-      });
+      if (session) {
+        res.status(200).json({token: session.sessionId});
+      } else {
+        const token = jwt.sign({email: user.email}, secret, {
+          expiresIn: "1h",
+        });
 
-      await db.insert(sessions).values({
-        sessionId: token,
-        email: user.email,
-        expiresAt: new Date(Date.now() + 3600 * 1000),
-      });
+        await db.insert(sessions).values({
+          sessionId: token,
+          email: user.email,
+          expiresAt: new Date(Date.now() + 3600 * 1000),
+        });
 
-      res.status(200).json({token});
+        await db
+          .update(users)
+          .set({lastLogin: new Date()})
+          .where(eq(users.email, user.email));
+
+        res.status(200).json({token});
+      }
     } catch (error) {
       next(error);
     }
@@ -60,6 +105,12 @@ router.post(
     try {
       const {sessionId} = req.body as {sessionId: string};
 
+      const decoded = jwt.verify(sessionId, secret);
+      if (!decoded) {
+        res.status(400).json({message: "Invalid session ID"});
+        return;
+      }
+
       const result = await db
         .delete(sessions)
         .where(eq(sessions.sessionId, sessionId));
@@ -68,6 +119,10 @@ router.post(
 
       res.status(200).json({message: "Logged out successfully"});
     } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        res.status(401).json({message: "Session expired"});
+        return;
+      }
       next(error);
     }
   }
@@ -95,10 +150,11 @@ router.post(
       const verificationToken = crypto.randomBytes(32).toString("hex");
 
       await db.insert(users).values({
-        email,
+        email: email.toLowerCase(),
         password: hashedPassword,
         verificationToken: verificationToken,
         isVerified: false,
+        createdAt: new Date(),
       });
 
       transporter.sendMail({
@@ -206,31 +262,24 @@ router.post(
     try {
       const {resetPasswordToken} = req.body as {resetPasswordToken: string};
 
-      const user = await db.query.users.findFirst({
-        where: eq(users.resetPasswordToken, resetPasswordToken),
-      });
+      const now = new Date();
 
-      if (!user) {
-        res.status(400).json({message: "Invalid Reset Token"});
+      // Clean up expired tokens
+      const user = await db
+        .update(users)
+        .set({resetPasswordToken: null, resetPasswordExpiry: null})
+        .where(
+          eq(users.resetPasswordToken, resetPasswordToken) &&
+            gt(users.resetPasswordExpiry, now)
+        )
+        .returning();
+
+      if (user.length === 0) {
+        res.status(400).json({message: "Invalid or expired reset token"});
         return;
       }
 
-      if (!user.resetPasswordExpiry) {
-        res.status(400).json({message: "Reset Token Expired"});
-        return;
-      }
-
-      if (user.resetPasswordExpiry < new Date()) {
-        await db
-          .update(users)
-          .set({resetPasswordToken: null, resetPasswordExpiry: null})
-          .where(eq(users.resetPasswordToken, resetPasswordToken));
-        res.status(400).json({message: "Reset Token Expired"});
-        return;
-      }
-
-      res.status(200).json({message: "Valid Token"});
-      return;
+      res.status(200).json({message: "Valid token"});
     } catch (error) {
       next(error);
     }
