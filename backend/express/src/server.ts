@@ -4,7 +4,7 @@ import express, {json} from "express";
 import {error} from "./middleware/error.ts";
 import {notFound} from "./middleware/not-found.ts";
 import AuthRoutes from "./routes/auth.ts";
-import EmailsRoutes from "./routes/users.ts";
+import UsersRoutes from "./routes/users.ts";
 
 const app = express();
 app.use(
@@ -18,7 +18,7 @@ app.use(
 app.use(json());
 
 app.use("/auth", AuthRoutes);
-app.use("/emails", EmailsRoutes);
+app.use("/users", UsersRoutes);
 
 app.use(notFound);
 app.use(error);

@@ -19,7 +19,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
     const emailArray = users.map((email) => email.email);
 
-    res.status(200).json(emailArray);
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }

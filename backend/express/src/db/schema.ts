@@ -10,12 +10,16 @@ export const users = t.pgTable("users", {
 
   // Auth
   password: t.text("password").notNull(),
+
   resetPasswordToken: t.text(),
   resetPasswordExpiry: t.timestamp(),
+
   failedLoginAttempts: t.integer("failed_login_attempts").notNull().default(0),
   accountLockedUntil: t.timestamp("account_locked_until"),
+
   isVerified: t.boolean("is_verified").notNull().default(false),
   verificationToken: t.text().unique(),
+
   createdAt: t.timestamp("created_at").notNull().defaultNow(),
   lastLogin: t.timestamp("last_login"),
 
