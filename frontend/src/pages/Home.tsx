@@ -1,17 +1,25 @@
-import {Link} from "react-router";
-import "../styles/App.css";
+import { fetchEmails } from "@/lib/FetchEmail";
+import { VerifyAuth } from "@/lib/VerifyAuth";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router";
 
-function App() {
+function Home() {
+  const [emails, setEmails] = useState<string[]>([]);
+  useEffect(() => {
+    async function fetching() {
+      const emails = await fetchEmails();
+      setEmails(emails);
+    }
+    fetching();
+  }, []);
+  if (VerifyAuth()) return <Navigate to="/auth/login" />;
+
   return (
-    <div className="dark:text-yellow-700">
-      <form className="flex flex-col gap-10">
-        <div></div>
-        <button>Log In</button>
-        <Link to="">Create new Account</Link>
-        <Link to="">Forgot Password</Link>
-      </form>
+    <div className="flex h-full flex-col gap-10 p-10">
+      {emails.map((email) => (
+        <div>{email}</div>
+      ))}
     </div>
   );
 }
-
-export default App;
+export default Home;
