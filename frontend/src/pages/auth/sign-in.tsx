@@ -3,13 +3,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { useToast } from "@/hooks/use-toast";
-import { VerifyAuth } from "@/lib/VerifyAuth";
+import { verifyAuth } from "@/lib/verify-Auth";
 import { Navigate } from "react-router";
 
 function Login() {
   const { toast } = useToast();
 
-  if (!VerifyAuth()) {
+  if (!verifyAuth()) {
     toast({ title: "You are already logged in" });
     return <Navigate to="/" />;
   }

@@ -62,7 +62,7 @@ function EmailConfirmation() {
               <div className="flex w-full flex-col gap-5 text-black">
                 <p className="font-bold">Email Verified Successfully!</p>
                 <Link
-                  to="/auth/login"
+                  to="/auth/sign-in"
                   className="self-center transition ease-in-out hover:underline hover:underline-offset-4"
                 >
                   Go to Login Page

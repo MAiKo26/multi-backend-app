@@ -1,4 +1,4 @@
-async function LogOff() {
+async function logout() {
   try {
     const sessionId = sessionStorage.getItem("authToken");
     console.log(sessionId);
@@ -18,4 +18,4 @@ async function LogOff() {
   }
 }
 
-export default LogOff;
+export default logout;

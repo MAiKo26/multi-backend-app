@@ -22,8 +22,11 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { TabsContent } from "./ui/tabs";
+import { useState } from "react";
+import LoadingButton from "./LoadingButton";
 
 function SignInForm() {
+  const [loadingButtonState, setLoadingButtonState] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,7 +39,8 @@ function SignInForm() {
 
   async function SignIn(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("http://localhost:3636/auth/login", {
+      setLoadingButtonState(true);
+      const res = await fetch("http://localhost:3636/auth/sign-in", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,9 +63,17 @@ function SignInForm() {
           description: response.message,
           variant: "destructive",
         });
+        form.setError("email", {
+          message: response.message,
+        });
+        setLoadingButtonState(false);
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast({
+        title: "Error",
+        description: "Client side error",
+        variant: "destructive",
+      });
     }
   }
 
@@ -110,7 +122,9 @@ function SignInForm() {
               />
             </CardContent>
             <CardFooter className="m-0 flex h-full w-full flex-col items-center justify-between gap-2">
-              <Button type="submit">Submit</Button>
+              <LoadingButton type="submit" loading={loadingButtonState}>
+                Submit
+              </LoadingButton>
               <Button variant="link" type="button">
                 <Link to="/auth/password-reset">Forgot Password</Link>
               </Button>

@@ -106,7 +106,7 @@ function PasswordResetUrl() {
 
       if (status === 200) {
         toast({ title: "Password successfully reset" });
-        window.location.href = "/auth/login";
+        window.location.href = "/auth/sign-in";
       } else {
         toast({ title: "Password reset failed" });
         passwordForm.setError("newPassword", {

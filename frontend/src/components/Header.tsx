@@ -1,6 +1,6 @@
 import { House, Power } from "lucide-react";
 import ThemeSwitch from "./ThemeSwitch";
-import LogOff from "@/lib/LogOff";
+import logout from "@/lib/loggingout";
 import { Link } from "react-router";
 
 function Header() {
@@ -12,7 +12,7 @@ function Header() {
       <ThemeSwitch />
       <Power
         className="h-6 w-6 hover:cursor-pointer hover:text-slate-500"
-        onClick={() => LogOff()}
+        onClick={() => logout()}
       />
     </nav>
   );

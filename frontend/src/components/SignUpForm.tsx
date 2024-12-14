@@ -1,8 +1,9 @@
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "./ui/button";
+import LoadingButton from "./LoadingButton";
 import {
   Card,
   CardContent,
@@ -21,9 +22,9 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { TabsContent } from "./ui/tabs";
-import { useState } from "react";
 
 function SignUpForm() {
+  const [loadingButtonState, setLoadingButtonState] = useState(false);
   const [sent, setSent] = useState("");
   const { toast } = useToast();
 
@@ -37,6 +38,7 @@ function SignUpForm() {
 
   async function SignUp(values: z.infer<typeof formSchema>) {
     try {
+      setLoadingButtonState(true);
       const res = await fetch("http://localhost:3636/auth/register", {
         headers: {
           "Content-Type": "application/json",
@@ -58,6 +60,10 @@ function SignUpForm() {
           description: response.message,
           variant: "destructive",
         });
+        form.setError("email", {
+          message: response.message,
+        });
+        setLoadingButtonState(false);
       }
     } catch (error) {
       toast({
@@ -65,6 +71,10 @@ function SignUpForm() {
         description: "Something went wrong " + error,
         variant: "destructive",
       });
+      form.setError("email", {
+        message: "Something went wrong " + error,
+      });
+      setLoadingButtonState(false);
     }
   }
 
@@ -123,7 +133,9 @@ function SignUpForm() {
                 />
               </CardContent>
               <CardFooter className="m-0 flex h-full w-full flex-col items-center justify-between gap-2">
-                <Button type="submit">Submit</Button>
+                <LoadingButton loading={loadingButtonState} type="submit">
+                  Submit
+                </LoadingButton>
               </CardFooter>
             </form>
           </Form>

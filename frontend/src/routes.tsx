@@ -2,12 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import Header from "./components/Header";
 import { Toaster } from "./components/ui/toaster";
-import Home from "./pages/Home";
-import Login from "./pages/auth/Login.tsx";
+import Home from "./pages/dashboard/home.tsx";
+import Login from "./pages/auth/sign-in.tsx";
 import NotFound from "./pages/not-found";
-import PasswordReset from "./pages/auth/password-reset/PasswordReset.tsx";
-import PasswordResetUrl from "./pages/auth/password-reset/PasswordResetId.tsx";
-import EmailConfirmation from "./pages/auth/EmailConfirmation";
+import PasswordReset from "./pages/auth/password-reset/password-reset.tsx";
+import PasswordResetUrl from "./pages/auth/password-reset/password-reset-id.tsx";
+import EmailConfirmation from "./pages/auth/email-confirmation.tsx";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="auth">
-            <Route path="login" element={<Login />} />
+            <Route path="sign-in" element={<Login />} />
             <Route
               path="email-confirmation/:id"
               element={<EmailConfirmation />}

@@ -9,11 +9,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 function LoadingButton({ children, loading, ...props }: Props) {
   return (
     <Button {...props} disabled={loading}>
-      {loading ? (
-        <Loader2 className="mr-2 h-full w-full animate-spin" />
-      ) : (
-        children
-      )}
+      {loading ? <Loader2 className="h-full w-full animate-spin" /> : children}
     </Button>
   );
 }
