@@ -164,36 +164,29 @@ Follow the README instructions in each backend directory to set up and run the A
 
 | Feature                            | Status         |
 | ---------------------------------- | -------------- |
-| Authentication Integration         | 🚧 In Progress |
+| Dark Mode & Preferences Management | ✅ Completed   |
+| Authentication Integration         | ✅ Completed   |
 | User Profile Page                  | 🔜 Not Started |
 | TODO CRUD Interface                | 🔜 Not Started |
 | Real-Time WebSocket Chat UI        | 🔜 Not Started |
 | Dashboard with Analytics/Charts    | 🔜 Not Started |
-| File Upload/Management UI          | 🔜 Not Started |
+| External API Integration           | 🔜 Not Started |
 | Notifications UI                   | 🔜 Not Started |
-| Dark Mode & Preferences Management | ✅ Completed   |
-| Activity Logs View                 | 🔜 Not Started |
-| Reports Display                    | 🔜 Not Started |
-| Streaming Page (e.g., Video/Audio) | 🔜 Not Started |
 
 ---
 
 ### **Backend Features**
 
-| Feature                        | Backend-Express | Backend-SpringBoot | Backend-DotNet |
-| ------------------------------ | --------------- | ------------------ | -------------- |
-| Authentication System          | ✅ Completed    | 🚧 In Progress     | 🔜 Not Started |
-| User Profile Management        | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| TODO CRUD API                  | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Real-Time WebSocket Chat       | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Dashboard Analytics and Charts | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| File Storage and Management    | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Notifications System           | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Multi-Role Access Control      | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Activity Logs/Audit Trail      | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| External API Integration       | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Reports Generation             | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| API Testing Tab                | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| Feature                     | Backend-Express | Backend-SpringBoot | Backend-DotNet |
+| --------------------------- | --------------- | ------------------ | -------------- |
+| Authentication System       | ✅ Completed    | 🚧 In Progress     | 🔜 Not Started |
+| User Profile Management     | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| File Storage and Management | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| TODO CRUD API               | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| Real-Time WebSocket Chat    | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| Multi-Role Access Control   | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| Notifications System        | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| External API Integration    | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 
 ---
 
