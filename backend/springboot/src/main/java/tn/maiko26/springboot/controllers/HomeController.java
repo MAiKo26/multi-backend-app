@@ -1,4 +1,4 @@
-package tn.maiko26.springboot;
+package tn.maiko26.springboot.controllers;
 
 import java.util.Collections;
 import java.util.Map;
