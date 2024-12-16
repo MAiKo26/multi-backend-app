@@ -179,7 +179,7 @@ Follow the README instructions in each backend directory to set up and run the A
 
 | Feature                     | Backend-Express | Backend-SpringBoot | Backend-DotNet |
 | --------------------------- | --------------- | ------------------ | -------------- |
-| Authentication System       | ✅ Completed    | 🚧 In Progress     | 🔜 Not Started |
+| Authentication System       | ✅ Completed    | 🚧 In Progress     | 🚧 In Progress |
 | User Profile Management     | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | File Storage and Management | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | TODO CRUD API               | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
