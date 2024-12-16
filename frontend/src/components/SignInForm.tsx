@@ -40,7 +40,7 @@ function SignInForm() {
   async function SignIn(values: z.infer<typeof formSchema>) {
     try {
       setLoadingButtonState(true);
-      const res = await fetch("http://localhost:3636/auth/sign-in", {
+      const res = await fetch("http://localhost:3636/auth/login", {
         headers: {
           "Content-Type": "application/json",
         },
