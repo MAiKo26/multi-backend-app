@@ -1,5 +1,6 @@
 package tn.maiko26.springboot.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,13 @@ import tn.maiko26.springboot.repository.SessionRepository;
 import tn.maiko26.springboot.repository.UserRepository;
 import tn.maiko26.springboot.utils.JwtUtil;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -24,6 +30,10 @@ public class AuthService {
     private JwtUtil jwtUtil;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private final SecureRandom random = new SecureRandom();
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     public String login(String email, String password) throws Exception {
         User user = userRepository.findByEmail(email)
@@ -68,4 +78,97 @@ public class AuthService {
             sessionRepository.deleteBySessionId(token);
         }
     }
+
+    public void register(String email, String password) {
+        if (userRepository.findByEmail(email).isPresent()) throw new IllegalArgumentException("Email already exists");
+
+
+        String hashedPassword = passwordEncoder.encode(password);
+
+        User user = new User(email, hashedPassword);
+
+
+        byte[] verificationTokenBytes = new byte[32];
+        random.nextBytes(verificationTokenBytes);
+        String verificationToken = Base64.getEncoder().encodeToString(verificationTokenBytes);
+
+        user.setVerificationToken(verificationToken);
+        user.setIsVerified(false);
+        user.setCreatedAt(new Date());
+        userRepository.save(user);
+
+        emailSenderService.sendVerificationEmail(email, verificationToken);
+
+    }
+
+    public void registerVerification(String verificationToken) {
+
+        log.error(verificationToken);
+        Optional<User> existingUser = userRepository.findByVerificationToken(verificationToken);
+
+        log.error(String.valueOf(existingUser));
+
+        if (existingUser.isEmpty()) throw new IllegalArgumentException("Invalid verification token");
+
+        User user = existingUser.get();
+
+        user.setIsVerified(true);
+        userRepository.save(user);
+
+
+    }
+
+    public void passwordReset(String email) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
+
+        if (existingUser.isEmpty()) throw new IllegalArgumentException("Email not found");
+
+        User user = existingUser.get();
+
+        byte[] resetPasswordTokenBytes = new byte[32];
+        random.nextBytes(resetPasswordTokenBytes);
+        String resetPasswordToken = Base64.getEncoder().encodeToString(resetPasswordTokenBytes);
+
+        user.setResetPasswordToken(resetPasswordToken);
+        user.setResetPasswordExpiry(new Date(System.currentTimeMillis() + 3600 * 1000));
+
+        userRepository.save(user);
+
+        emailSenderService.sendResetEmail(email, resetPasswordToken);
+
+    }
+
+    public void passwordResetVerification(String resetPasswordToken) {
+
+        Date now = new Date();
+
+        List<User> users = userRepository.findAllByResetPasswordTokenAndResetPasswordExpiryGreaterThan(resetPasswordToken, now);
+
+        if (users.isEmpty()) throw new IllegalArgumentException("Invalid or expired reset token");
+
+        for (User user : users) {
+            user.setResetPasswordToken(null);
+            user.setResetPasswordExpiry(null);
+            userRepository.save(user);
+        }
+
+
+    }
+
+    public void passwordResetConfirmation(String resetPasswordToken, String newPassword) {
+
+        String hashedPassword = passwordEncoder.encode(newPassword);
+
+        User user = userRepository.findByResetPasswordToken(resetPasswordToken);
+
+        user.setResetPasswordExpiry(null);
+        user.setResetPasswordToken(null);
+
+        userRepository.save(user);
+
+
+
+    }
+
+
 }

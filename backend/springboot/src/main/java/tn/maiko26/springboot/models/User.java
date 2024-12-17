@@ -24,10 +24,10 @@ public class User {
     @Column(name = "resetPasswordToken")
     private String resetPasswordToken;
     @Column(name = "resetPasswordExpiry")
-    private String resetPasswordExpiry;
+    private Date resetPasswordExpiry;
 
     @Column(name = "failed_login_attempts")
-    private Integer failedLoginAttempts;
+    private Integer failedLoginAttempts = 0;
     @Column(name = "account_locked_until")
     private Date accountLockedUntil;
 
@@ -49,9 +49,16 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "role")
-    private String role;
+    private String role = "user";
+
+    public User(String email, String password) {
+        this.setEmail(email);
+        this.setPassword(password);
+
+    }
 
 
+    public User() {
 
-
+    }
 }
