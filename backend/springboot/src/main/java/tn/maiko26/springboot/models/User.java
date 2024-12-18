@@ -1,18 +1,17 @@
 package tn.maiko26.springboot.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
-
     @Id
     @Column(name = "email")
     private String email;
@@ -21,44 +20,49 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "resetPasswordToken")
+    @Column(name = "reset_password_token")
     private String resetPasswordToken;
-    @Column(name = "resetPasswordExpiry")
+
+    @Column(name = "reset_password_expiry") 
     private Date resetPasswordExpiry;
 
     @Column(name = "failed_login_attempts")
     private Integer failedLoginAttempts = 0;
+
     @Column(name = "account_locked_until")
     private Date accountLockedUntil;
 
     @Column(name = "is_verified")
-    private Boolean isVerified;
-    @Column(name = "verificationToken")
+    private Boolean isVerified = false;
+
+    @Column(name = "verification_token")
     private String verificationToken;
 
     @Column(name = "created_at")
     private Date createdAt;
+
     @Column(name = "last_login")
     private Date lastLogin;
 
     // Profile
     @Column(name = "name")
     private String name;
+
     @Column(name = "avatar_url")
     private String avatarUrl;
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
     @Column(name = "role")
     private String role = "user";
 
+    // One-to-Many relationship with Sessions
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Session> sessions;
+
     public User(String email, String password) {
-        this.setEmail(email);
-        this.setPassword(password);
-
-    }
-
-
-    public User() {
-
+        this.email = email;
+        this.password = password;
     }
 }

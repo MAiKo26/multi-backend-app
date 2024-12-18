@@ -13,7 +13,8 @@ public class UserMapper {
                 user.getName(),
                 user.getAvatarUrl(),
                 user.getPhoneNumber(),
-                user.getRole()
+                user.getRole(),
+                user.getLastLogin()
         );
     }
 }

@@ -61,7 +61,7 @@ public class AuthService {
         String token = jwtUtil.generateToken(user.getEmail());
         Session session = new Session();
         session.setSessionId(token);
-        session.setEmail(user.getEmail());
+        session.setUser(user);
         session.setCreatedAt(new Date());
         session.setExpiresAt(new Date(System.currentTimeMillis() + 3600 * 1000));
         sessionRepository.save(session);
