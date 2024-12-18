@@ -1,0 +1,6 @@
+﻿services:
+  dotnet:
+    image: dotnet
+    build:
+      context: .
+      dockerfile: Dockerfile

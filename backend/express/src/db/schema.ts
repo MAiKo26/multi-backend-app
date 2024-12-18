@@ -11,14 +11,14 @@ export const users = t.pgTable("users", {
   // Auth
   password: t.text("password").notNull(),
 
-  resetPasswordToken: t.text(),
-  resetPasswordExpiry: t.timestamp(),
+  resetPasswordToken: t.text("reset_password_token"),
+  resetPasswordExpiry: t.timestamp("reset_password_expiry"),
 
   failedLoginAttempts: t.integer("failed_login_attempts").notNull().default(0),
   accountLockedUntil: t.timestamp("account_locked_until"),
 
   isVerified: t.boolean("is_verified").notNull().default(false),
-  verificationToken: t.text().unique(),
+  verificationToken: t.text("verification_token").unique(),
 
   createdAt: t.timestamp("created_at").notNull().defaultNow(),
   lastLogin: t.timestamp("last_login"),
