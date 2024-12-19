@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="MailKit" Version="4.9.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
@@ -23,13 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Configuration\" />
-      <Folder Include="Data\" />
-      <Folder Include="DTOs\" />
-      <Folder Include="Mappers\" />
       <Folder Include="Middlewares\" />
-      <Folder Include="Services\" />
-      <Folder Include="Utils\" />
     </ItemGroup>
 
 </Project>

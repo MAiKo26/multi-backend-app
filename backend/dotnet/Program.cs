@@ -1,9 +1,24 @@
+using dotnet.Configuration;
+using dotnet.Data;
+using dotnet.Interfaces;
+using dotnet.Mappers;
+using dotnet.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(UserMapper).Assembly);
 builder.Services.AddControllers();
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Swagger generator
 builder.Services.AddEndpointsApiExplorer();

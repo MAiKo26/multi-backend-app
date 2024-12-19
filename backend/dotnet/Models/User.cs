@@ -1,34 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace dotnet.Models
 {
+    [Table("users")]
     public class User
     {
-        private string Email { get; set; }
-        private string Password { get; set; }
+        [Key]
+        [Required]
+        [EmailAddress]
+        [Column("email")]
+        public string Email { get; set; } = string.Empty;
 
-        // Auth
-        private string ResetPasswordToken { get; set; }
-        private DateOnly ResetPasswordExpiry { get; set; }
-        private int FailedLoginAttempts { get; set; }
-        private DateOnly AccountLockedUntil { get; set; }
-        private bool IsVerified { get; set; }
-        private string VerificationToken { get; set; }
-        private DateOnly CreatedAt { get; set; }
-        private DateOnly LastLogin { get; set; }
+        [Required]
+        [Column("password")]
+        public string Password { get; set; } = string.Empty;
 
-        // Profile
-        private string Name { get; set; }
-        private string AvatarUrl { get; set; }
-        private string PhoneNumber { get; set; }
-        private string Role { get; set; }
+        [Column("reset_password_token")]
+        public string? ResetPasswordToken { get; set; }
 
-        public User(string email, string password)
-        {
-            this.Email = email;
-            this.Password = password;
-        }
+        [Column("reset_password_expiry")]
+        public DateTime? ResetPasswordExpiry { get; set; }
 
-        public User()
-        {
-        }
+        [Column("failed_login_attempts")]
+        public int FailedLoginAttempts { get; set; } = 0;
+
+        [Column("account_locked_until")]
+        public DateTime? AccountLockedUntil { get; set; }
+
+        [Column("is_verified")]
+        public bool IsVerified { get; set; } = false;
+
+        [Column("verification_token")]
+        public string? VerificationToken { get; set; }
+
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column("last_login")]
+        public DateTime? LastLogin { get; set; }
+
+        [Column("name")]
+        public string? Name { get; set; }
+
+        [Column("avatar_url")]
+        public string? AvatarUrl { get; set; }
+
+        [Column("phone_number")]
+        public string? PhoneNumber { get; set; }
+
+        [Column("role")]
+        public string Role { get; set; } = "user";
+
+        // Navigation property for related sessions
+        public ICollection<Session>? Sessions { get; set; }
     }
 }
