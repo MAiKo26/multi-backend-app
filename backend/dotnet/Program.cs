@@ -26,13 +26,12 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "My API",
+        Title = "Dotnet Api",
         Version = "v1",
-        Description = "An example API with Swagger documentation",
         Contact = new OpenApiContact
         {
-            Name = "Your Name",
-            Email = "your-email@example.com"
+            Name = "Mohamed Aziz Karoui",
+            Email = "contact.mohamedazizkaroui@gmail.com"
         }
     });
 });
@@ -47,7 +46,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = string.Empty; // Swagger UI at root URL
+        c.RoutePrefix = "swagger-ui"; // Swagger UI at root URL
     });
 }
 
