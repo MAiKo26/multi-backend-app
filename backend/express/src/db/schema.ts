@@ -35,7 +35,7 @@ export const sessions = t.pgTable("sessions", {
   email: t
     .text("email")
     .notNull()
-    .references(() => users.email),
+    .references(() => users.email, {onDelete: "cascade"}),
   createdAt: t.timestamp("created_at").notNull().defaultNow(),
   expiresAt: t.timestamp("expires_at").notNull(),
 });

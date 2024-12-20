@@ -1,9 +1,9 @@
 package tn.maiko26.springboot.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.util.Date;
 
@@ -17,7 +17,7 @@ public class Session {
     @Column(name = "session_id")
     private String sessionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "email", referencedColumnName = "email", nullable = false)
     private User user;
 

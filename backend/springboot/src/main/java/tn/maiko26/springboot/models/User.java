@@ -23,19 +23,19 @@ public class User {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
-    @Column(name = "reset_password_expiry") 
+    @Column(name = "reset_password_expiry")
     private Date resetPasswordExpiry;
 
-    @Column(name = "failed_login_attempts")
+    @Column(name = "failed_login_attempts", columnDefinition = "integer default 0")
     private Integer failedLoginAttempts = 0;
 
     @Column(name = "account_locked_until")
     private Date accountLockedUntil;
 
-    @Column(name = "is_verified")
+    @Column(name = "is_verified", columnDefinition = "boolean default false")
     private Boolean isVerified = false;
 
-    @Column(name = "verification_token")
+    @Column(name = "verification_token", unique = true)
     private String verificationToken;
 
     @Column(name = "created_at")

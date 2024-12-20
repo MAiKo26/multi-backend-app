@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet.Models
 {
     [Table("users")]
+    [Index(nameof(VerificationToken), IsUnique = true)] // Add Index attribute at the class level
     public class User
     {
         [Key]
@@ -24,13 +25,15 @@ namespace dotnet.Models
         [Column("reset_password_expiry")]
         public DateTime? ResetPasswordExpiry { get; set; }
 
-        [Column("failed_login_attempts")]
+        [Column("failed_login_attempts", TypeName = "int")]
+        [DefaultValue(0)]
         public int FailedLoginAttempts { get; set; } = 0;
 
         [Column("account_locked_until")]
         public DateTime? AccountLockedUntil { get; set; }
 
-        [Column("is_verified")]
+        [Column("is_verified", TypeName = "bit")]
+        [DefaultValue(false)]
         public bool IsVerified { get; set; } = false;
 
         [Column("verification_token")]
