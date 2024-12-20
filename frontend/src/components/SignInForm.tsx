@@ -78,7 +78,7 @@ function SignInForm() {
   }
 
   return (
-    <TabsContent value="signin" className="h-full w-full">
+    <TabsContent value="signin" className="h-fit w-full">
       <Card>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(SignIn)} className="">
@@ -126,7 +126,7 @@ function SignInForm() {
                 Submit
               </LoadingButton>
               <Button variant="link" type="button">
-                <Link to="/auth/password-reset">Forgot Password</Link>
+                <Link to="/auth/password-reset">Forgot Password ?</Link>
               </Button>
             </CardFooter>
           </form>

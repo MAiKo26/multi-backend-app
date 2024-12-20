@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { useToast } from "@/hooks/use-toast";
-import { verifyAuth } from "@/lib/verify-Auth";
+import { verifyAuth } from "@/lib/auth-repo";
 import { Navigate } from "react-router";
 
 function Login() {
@@ -15,7 +15,7 @@ function Login() {
   }
 
   return (
-    <div className="flex h-full min-h-screen justify-center pt-10 md:pt-20 xl:pt-40">
+    <div className="flex h-full justify-center pt-10 md:pt-10 xl:pt-20">
       <Tabs
         defaultValue="signin"
         className="flex w-[400px] flex-col items-start justify-center"

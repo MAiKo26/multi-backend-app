@@ -1,7 +1,7 @@
 import { userInterface } from "@/interfaces/userInterface";
-import { fetchUsers } from "@/lib/fetchUsers";
+import { fetchUsers } from "@/lib/user-repo";
 import { formatDate } from "@/lib/utils";
-import { verifyAuth } from "@/lib/verify-Auth";
+import { verifyAuth } from "@/lib/auth-repo";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 

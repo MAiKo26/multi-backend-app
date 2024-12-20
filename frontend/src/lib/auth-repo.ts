@@ -1,4 +1,10 @@
-async function logout() {
+export function verifyAuth() {
+  const token = sessionStorage.getItem("authToken");
+
+  return token ? false : true;
+}
+
+export async function logOut() {
   try {
     const sessionId = sessionStorage.getItem("authToken");
     console.log(sessionId);
@@ -17,5 +23,3 @@ async function logout() {
     window.location.reload();
   }
 }
-
-export default logout;

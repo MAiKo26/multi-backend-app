@@ -1,6 +1,6 @@
-import { useTheme } from "../hooks/use-theme";
 import { Menu, RadioGroup, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
+import { useTheme } from "../hooks/use-theme";
 
 const Sun = () => (
   <svg

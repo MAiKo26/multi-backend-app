@@ -79,7 +79,7 @@ function SignUpForm() {
   }
 
   return (
-    <TabsContent value="signup" className="h-full w-full">
+    <TabsContent value="signup" className="h-fit w-full">
       {sent ? (
         <Card>
           <CardHeader>
