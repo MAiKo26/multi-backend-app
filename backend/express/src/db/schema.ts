@@ -125,7 +125,7 @@ export const chatMessages = t.pgTable("chat_messages", {
   senderId: t.text("sender_id").references(() => users.email),
   content: t.text("content").notNull(),
   createdAt: t.timestamp("created_at").notNull().defaultNow(),
-  readBy: t.json("read_by").default([]),
+  readBy: t.text("read_by").array().default([]),
 });
 
 export const notifications = t.pgTable("notifications", {
