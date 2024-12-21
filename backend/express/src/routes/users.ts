@@ -54,8 +54,6 @@ router.get(
         .where(eq(sessions.sessionId, session))
         .limit(1);
 
-      console.log(userWithSession[0]);
-
       res.status(200).json(userWithSession[0]);
     } catch (error) {
       next(error);

@@ -115,8 +115,6 @@ router.post(
         .delete(sessions)
         .where(eq(sessions.sessionId, sessionId));
 
-      console.log(result);
-
       res.status(200).json({message: "Logged out successfully"});
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
@@ -232,8 +230,6 @@ router.post(
           resetPasswordExpiry: new Date(Date.now() + 3600 * 1000),
         })
         .where(eq(users.email, email));
-
-      console.log(user);
 
       // Send the email
       const mailOptions = {

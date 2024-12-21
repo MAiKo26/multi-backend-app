@@ -57,6 +57,25 @@ namespace dotnet.Models
         [Column("role")]
         public string Role { get; set; } = "user";
 
+                [Column("subscription_status")]
+        public string SubscriptionStatus { get; set; } = "free";
+
+        [Column("subscription_id")]
+        public string? SubscriptionId { get; set; }
+
+        [Column("customer_id")]
+        public string? CustomerId { get; set; }
+
+        [Column("mba_points")]
+        public int MbaPoints { get; set; } = 0;
+
+        [Column("email_notifications")]
+        public bool EmailNotifications { get; set; } = true;
+
+        [Column("push_notifications")]
+        public bool PushNotifications { get; set; } = true;
+
+
         // Navigation property for related sessions
         public ICollection<Session>? Sessions { get; set; }
     }
