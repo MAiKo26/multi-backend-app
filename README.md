@@ -166,8 +166,9 @@ Follow the README instructions in each backend directory to set up and run the A
 | ---------------------------------- | -------------- |
 | Dark Mode & Preferences Management | ✅ Completed   |
 | Authentication Integration         | ✅ Completed   |
+| Global State Management            | 🚧 In Progress |
 | User Profile Page                  | 🔜 Not Started |
-| TODO CRUD Interface                | 🔜 Not Started |
+| UI for the app                     | 🔜 Not Started |
 | Real-Time WebSocket Chat UI        | 🔜 Not Started |
 | Dashboard with Analytics/Charts    | 🔜 Not Started |
 | External API Integration           | 🔜 Not Started |
@@ -180,9 +181,9 @@ Follow the README instructions in each backend directory to set up and run the A
 | Feature                     | Backend-Express | Backend-SpringBoot | Backend-DotNet |
 | --------------------------- | --------------- | ------------------ | -------------- |
 | Authentication System       | ✅ Completed    | 🚧 In Progress     | 🚧 In Progress |
-| User Profile Management     | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| File Storage and Management | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| TODO CRUD API               | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
+| User Profile Management     | 🚧 In Progress  | 🔜 Not Started     | 🔜 Not Started |
+| File Storage and Management | 🚧 In Progress  | 🔜 Not Started     | 🔜 Not Started |
+| Bunch of CRUD               | 🚧 In Progress  | 🔜 Not Started     | 🔜 Not Started |
 | Real-Time WebSocket Chat    | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | Multi-Role Access Control   | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
 | Notifications System        | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
