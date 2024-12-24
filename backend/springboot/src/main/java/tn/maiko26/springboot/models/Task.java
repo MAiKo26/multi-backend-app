@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tn.maiko26.springboot.models.relations.StarredTask;
+import tn.maiko26.springboot.models.relations.TaskComment;
 
 import java.util.Date;
 import java.util.List;
@@ -27,20 +29,23 @@ public class Task {
     @Column(name = "created_at", nullable = false, columnDefinition = "timestamp default now()")
     private Date createdAt;
 
+    @Column(name = "stars", columnDefinition = "integer default 0")
+    private Integer stars = 0;
+
+    @Column(name = "finished", nullable = false, columnDefinition = "boolean default false")
+    private Boolean finished = false;
+
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "assignee", nullable = false)
-    private User assignee;
+    @JoinColumn(name = "finished_by", referencedColumnName = "email")
+    private User finishedBy;
 
-    @Column(name = "status", nullable = false)
-    private String status;
-
-    @Column(name = "priority", nullable = false)
-    private String priority;
-
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<TaskComment> comments;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<StarredTask> starredBy;
 }

@@ -1,16 +1,12 @@
-package tn.maiko26.springboot.models;
+package tn.maiko26.springboot.models.relations;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import tn.maiko26.springboot.models.Task;
+import tn.maiko26.springboot.models.User;
 
 import java.util.Date;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Table(name = "task_comments")
 public class TaskComment {
     @Id
@@ -25,9 +21,9 @@ public class TaskComment {
     @JoinColumn(name = "user_id", referencedColumnName = "email")
     private User user;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", length = 255, nullable = false)
     private String content;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 }

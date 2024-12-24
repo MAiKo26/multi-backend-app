@@ -2,7 +2,6 @@ package tn.maiko26.springboot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.maiko26.springboot.dto.UserDto;
 import tn.maiko26.springboot.models.User;
 import tn.maiko26.springboot.repository.UserRepository;
 

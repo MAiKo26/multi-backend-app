@@ -40,7 +40,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequestData request) {
         try {
-            authService.register(request.getEmail(), request.getPassword());
+            authService.register(request.getEmail(), request.getPassword(),request.getName());
             return ResponseEntity.ok().body(Map.of("message", "Email Sent Successfully"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,6 +110,7 @@ public class AuthController {
 class AuthRequestData {
     private String email;
     private String password;
+    private String name;
 }
 
 @Data

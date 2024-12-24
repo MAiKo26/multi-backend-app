@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "projects")
 public class Project {
     @Id
-    @Column(name = "project_id")
+    @Column(name = "project_id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false)
@@ -24,8 +24,8 @@ public class Project {
     @Column(name = "created_at", nullable = false, columnDefinition = "timestamp default now()")
     private Date createdAt;
 
-    @Column(name = "stars", columnDefinition = "integer default 0")
-    private Integer stars = 0;
+
+    // Relations
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
@@ -33,7 +33,4 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
-
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectMember> projectMembers;
 }

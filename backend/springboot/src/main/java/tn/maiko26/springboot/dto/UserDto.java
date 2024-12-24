@@ -2,6 +2,7 @@ package tn.maiko26.springboot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import tn.maiko26.springboot.enums.UserRole;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class UserDto {
     private String name;
     private String avatarUrl;
     private String phoneNumber;
-    private String role;
+    private UserRole role;
     private Date lastLogin;
 
 }

@@ -3,6 +3,7 @@ package tn.maiko26.springboot.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tn.maiko26.springboot.models.relations.TeamMember;
 
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,9 @@ import java.util.List;
 @Table(name = "teams")
 public class Team {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
-    private String id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -22,9 +24,9 @@ public class Team {
     @Column(name = "created_at", nullable = false, columnDefinition = "timestamp default now()")
     private Date createdAt;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TeamMember> teamMembers;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<TeamMember> members;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Project> projects;
 }

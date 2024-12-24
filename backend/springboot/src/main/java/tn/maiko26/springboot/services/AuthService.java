@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.maiko26.springboot.enums.UserRole;
 import tn.maiko26.springboot.models.User;
 import tn.maiko26.springboot.models.Session;
 import tn.maiko26.springboot.repository.SessionRepository;
@@ -79,13 +80,13 @@ public class AuthService {
         }
     }
 
-    public void register(String email, String password) {
+    public void register(String email, String password,String name) {
         if (userRepository.findByEmail(email).isPresent()) throw new IllegalArgumentException("Email already exists");
 
 
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = new User(email, hashedPassword);
+        User user = new User(email, hashedPassword, name);
 
 
         byte[] verificationTokenBytes = new byte[32];

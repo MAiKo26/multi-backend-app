@@ -6,20 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity
 @Table(name = "user_settings")
 public class UserSetting {
     @Id
+    @Column(name = "user_email")
+    private String userEmail;
+
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "email")
+    @MapsId
+    @JoinColumn(name = "user_email")
     private User user;
 
-    @Column(name = "email_digest", columnDefinition = "boolean default true")
+    @Column(name = "email_digest", nullable = false, columnDefinition = "boolean default true")
     private Boolean emailDigest = true;
 
-    @Column(name = "task_reminders", columnDefinition = "boolean default true")
+    @Column(name = "task_reminders", nullable = false, columnDefinition = "boolean default true")
     private Boolean taskReminders = true;
 }
