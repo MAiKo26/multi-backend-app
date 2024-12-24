@@ -1,4 +1,4 @@
 package tn.maiko26.springboot.exceptions;
 
-public class ApiNotFoundResponse {
+public class NotFoundResponse {
 }

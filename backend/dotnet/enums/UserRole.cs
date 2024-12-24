@@ -1,6 +1,6 @@
 namespace dotnet.Models
 {
-    public enum Role
+    public enum UserRole
     {
         admin,
         user

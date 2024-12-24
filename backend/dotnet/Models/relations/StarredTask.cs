@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace dotnet.Models
 {
     [Table("starred_items")]
-    public class StarredItem
+    public class StarredTask
     {
         [Key]
         [Required]
