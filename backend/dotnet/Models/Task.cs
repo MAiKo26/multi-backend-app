@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,25 +24,24 @@ namespace dotnet.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [ForeignKey("Project")]
         [Column("project_id")]
         public string ProjectId { get; set; } = string.Empty;
-        public Project Project { get; set; }
 
-        [Required]
-        [ForeignKey("User")]
-        [Column("assignee")]
-        public string AssigneeId { get; set; } = string.Empty;
-        public User Assignee { get; set; }
+        [Column("stars")]
+        [DefaultValue(0)]
+        public int Stars { get; set; } = 0;
 
-        [Required]
-        [Column("status")]
-        public string Status { get; set; } = string.Empty;
+        [Column("finished")]
+        [DefaultValue(false)]
+        public bool Finished { get; set; } = false;
 
-        [Required]
-        [Column("priority")]
-        public string Priority { get; set; } = string.Empty;
+        [Column("finished_by")]
+        public string? FinishedBy { get; set; }
 
-        public ICollection<TaskComment> Comments { get; set; } = new List<TaskComment>();
+        // Navigation properties
+        public Project Project { get; set; } = null!;
+        public User? FinishedByUser { get; set; }
+        public ICollection<TaskComment> TaskComments { get; set; } = new List<TaskComment>();
+        public ICollection<StarredTask> StarredTasks { get; set; } = new List<StarredTask>();
     }
 }

@@ -18,15 +18,12 @@ namespace dotnet.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column("stars")]
-        public int Stars { get; set; } = 0;
-
         [Required]
-        [ForeignKey("Team")]
         [Column("team_id")]
-        public string TeamId { get; set; } = string.Empty;
-        public Team Team { get; set; }
+        public int TeamId { get; set; }
 
+        // Navigation properties
+        public Team Team { get; set; } = null!;
         public ICollection<Task> Tasks { get; set; } = new List<Task>();
         public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
     }

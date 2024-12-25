@@ -1,6 +1,10 @@
+using dotnet.Models;
+
 namespace dotnet.Interfaces;
 
-public class IActivityHistoryService
+public interface IActivityHistoryService
 {
-    
+    IEnumerable<ActivityHistory> GetAllActivities();
+
+    IEnumerable<ActivityHistory> GetActivityByEmail(string email);
 }

@@ -8,19 +8,21 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddAutoMapper(typeof(UserMapper).Assembly);
 builder.Services.AddControllers();
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailSettings"));
-
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IActivityHistoryService, ActivityHistoryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register Swagger generator
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -38,21 +40,25 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // Enable Swagger in development mode
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = "swagger-ui"; // Swagger UI at root URL
+        c.RoutePrefix = "swagger-ui";
     });
 }
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // if you have authentication configured
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
+app.UseMiddleware<NotFoundMiddleware>();
+
+
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

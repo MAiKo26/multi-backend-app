@@ -3,27 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dotnet.Models
 {
+    // TeamMember.cs
     [Table("team_members")]
     public class TeamMember
     {
-        [Key]
-        [Required]
-        [Column("team_member_id")]
-        public string Id { get; set; } = string.Empty;
+        [Key, Column("team_id")]
+        public int TeamId { get; set; }
 
-        [Required]
-        [ForeignKey("Team")]
-        [Column("team_id")]
-        public string TeamId { get; set; } = string.Empty;
-        public Team Team { get; set; }
-
-        [Required]
-        [ForeignKey("User")]
-        [Column("email")]
+        [Key, Column("email")]
         public string Email { get; set; } = string.Empty;
-        public User User { get; set; }
 
-        [Column("role")]
-        public string Role { get; set; } = "user";
+        // Navigation properties
+        public Team Team { get; set; } = null!;
+        public User User { get; set; } = null!;
     }
 }

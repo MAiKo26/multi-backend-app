@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,11 +11,6 @@ namespace dotnet.Models
         [Required]
         [Column("notification_id")]
         public string Id { get; set; } = string.Empty;
-
-        [ForeignKey("User")]
-        [Column("user_id")]
-        public string UserId { get; set; } = string.Empty;
-        public User User { get; set; }
 
         [Required]
         [Column("type")]
@@ -29,6 +25,7 @@ namespace dotnet.Models
         public string Content { get; set; } = string.Empty;
 
         [Column("read")]
+        [DefaultValue(false)]
         public bool Read { get; set; } = false;
 
         [Column("created_at")]
@@ -36,6 +33,9 @@ namespace dotnet.Models
 
         [Column("link")]
         public string? Link { get; set; }
+
+        // Navigation property
+        public ICollection<UserNotification> UserNotifications { get; set; } = new List<UserNotification>();
     }
 }
 

@@ -7,9 +7,8 @@ namespace dotnet.Models
     public class Team
     {
         [Key]
-        [Required]
         [Column("team_id")]
-        public string Id { get; set; } = string.Empty;
+        public int Id { get; set; }
 
         [Required]
         [Column("name")]
@@ -18,6 +17,7 @@ namespace dotnet.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        // Navigation properties
         public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
         public ICollection<Project> Projects { get; set; } = new List<Project>();
     }

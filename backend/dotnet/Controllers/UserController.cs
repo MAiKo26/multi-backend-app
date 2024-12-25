@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnet.Controllers
 {
     [ApiController]
+    [Route("users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,7 +20,6 @@ namespace dotnet.Controllers
         }
 
         [HttpGet]
-        [Route("users")]
         public IActionResult GetUsers()
         {
             var users = _userService.GetAllUsers();

@@ -8,33 +8,20 @@ namespace dotnet.Models
     public class ActivityHistory
     {
         [Key]
-        [Required]
         [Column("history_id")]
         public string Id { get; set; } = string.Empty;
 
-        [ForeignKey("User")]
         [Column("user_id")]
         public string UserId { get; set; } = string.Empty;
-        public User User { get; set; }
 
-        [Required]
-        [Column("type")]
-        public string Type { get; set; } = string.Empty;
+        [Column("description")]
+        public string Description { get; set; } = string.Empty;
 
-        [Required]
-        [Column("action")]
-        public string Action { get; set; } = string.Empty;
+        [Column("done_at")]
+        public DateTime DoneAt { get; set; } = DateTime.UtcNow;
 
-        [Column("resource_id")]
-        public string? ResourceId { get; set; }
+        // Navigation property
+        public User User { get; set; } = null!;
 
-        [Column("resource_type")]
-        public string? ResourceType { get; set; }
-
-        [Column("created_at")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        [Column("metadata")]
-        public JsonDocument Metadata { get; set; } = JsonDocument.Parse("{}");
     }
 }

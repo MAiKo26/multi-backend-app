@@ -1,6 +1,12 @@
+using dotnet.Models;
+
 namespace dotnet.Interfaces;
 
-public class IProjectService
+public interface IProjectService
 {
-    
+    IEnumerable<Project> GetAllProjects();
+    void CreateProject();
+    void AddMemberToProject();
+    void DeleteProject();
+
 }

@@ -9,18 +9,19 @@ namespace dotnet.Models
         [Key]
         [Required]
         [Column("session_id")]
-        public required string SessionId { get; set; } = string.Empty;
+        public string SessionId { get; set; } = string.Empty;
 
-        [ForeignKey("User")]
+        [Required]
         [Column("email")]
-        public required string Email { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        public User User { get; set; }
-
-        [Column("created_at")] 
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [Column("expires_at")] 
-        public DateTime ExpiresAt { get; set; } = DateTime.UtcNow.AddHours(1);
+        [Column("expires_at")]
+        public DateTime ExpiresAt { get; set; }
+
+        // Navigation property
+        public User User { get; set; } = null!;
     }
 }

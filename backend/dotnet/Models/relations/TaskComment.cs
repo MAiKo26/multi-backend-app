@@ -12,22 +12,23 @@ namespace dotnet.Models
         public string Id { get; set; } = string.Empty;
 
         [Required]
-        [ForeignKey("Task")]
         [Column("task_id")]
         public string TaskId { get; set; } = string.Empty;
-        public Task Task { get; set; }
 
         [Required]
-        [ForeignKey("User")]
         [Column("user_id")]
         public string UserId { get; set; } = string.Empty;
-        public User User { get; set; }
 
         [Required]
         [Column("content")]
+        [MaxLength(255)]
         public string Content { get; set; } = string.Empty;
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Navigation properties
+        public Task Task { get; set; } = null!;
+        public User User { get; set; } = null!;
     }
 }
