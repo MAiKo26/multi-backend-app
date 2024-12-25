@@ -193,7 +193,7 @@ Follow the README instructions in each backend directory to set up and run the A
 
 ## **Why This Project?**
 
-This app allows me to put everything I’ve learned into practice:
+This app allows me to put everything I've learned into practice:
 
 - **Frontend Development** with Vite, React Router, and state management
 - **Backend Development** with Express.js, Spring Boot, and ASP.NET Core
@@ -213,4 +213,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## **Next Steps**
 
-I’ll be actively developing this project, crossing off features as I go. Stay tuned for updates! 🚀
+I'll be actively developing this project, crossing off features as I go. Stay tuned for updates! 🚀
