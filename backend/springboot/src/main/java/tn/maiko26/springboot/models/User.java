@@ -50,8 +50,8 @@ public class User {
     private UserRole role;
 
     // Billing related fields
-    @Column(name = "subscription_status", columnDefinition = "varchar(255) default 'free'")
-    private String subscriptionStatus = "free";
+    @Column(name = "subscription_status")
+    private String subscriptionStatus;
     @Column(name = "subscription_id")
     private String subscriptionId;
     @Column(name = "customer_id")

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "starred_items")
+@Table(name = "starred_tasks")
 @IdClass(StarredTaskId.class)
 public class StarredTask {
     @Id
