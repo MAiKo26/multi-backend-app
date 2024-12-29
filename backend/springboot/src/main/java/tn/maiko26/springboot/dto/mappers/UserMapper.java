@@ -2,7 +2,7 @@ package tn.maiko26.springboot.dto.mappers;
 
 import org.springframework.stereotype.Component;
 import tn.maiko26.springboot.dto.UserDto;
-import tn.maiko26.springboot.models.User;
+import tn.maiko26.springboot.model.User;
 
 @Component
 public class UserMapper {
