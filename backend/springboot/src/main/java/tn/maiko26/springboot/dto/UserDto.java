@@ -15,7 +15,7 @@ public class UserDto {
     private String name;
     private String avatarUrl;
     private String phoneNumber;
-    private UserRole role;
+    private String role;
     private Date lastLogin;
 
 }
