@@ -1,12 +1,17 @@
 package tn.maiko26.springboot.util;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-import java.util.Date;
 import io.jsonwebtoken.*;
-import java.security.Key;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtil {
@@ -41,5 +46,10 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public Authentication getAuthentication(String email) {
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("user"));
+        return new UsernamePasswordAuthenticationToken(email, null, authorities);
     }
 }
