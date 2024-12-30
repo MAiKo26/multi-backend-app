@@ -8,9 +8,9 @@ export function error(
   next: NextFunction
 ) {
   try {
-    const msg = JSON.parse(err.message);
-    res.status(err.statusCode).json({msg});
+    const message = JSON.parse(err.message);
+    res.status(err.statusCode).json({message});
   } catch (error) {
-    res.status(err.statusCode).json({msg: err.message});
+    res.status(500).json({message: err.message});
   }
 }

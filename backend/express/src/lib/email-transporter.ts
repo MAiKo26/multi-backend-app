@@ -1,16 +1,15 @@
 import nodemailer from "nodemailer";
-// Configure the transporter
+
 export const transporter = nodemailer.createTransport({
   host: "smtp.ethereal.email",
   port: 587,
-  secure: false, // true for 465, false for other ports
+  secure: false,
   auth: {
-    user: "jewel.green12@ethereal.email", // process.env.EMAIL_USER!,  Your email address
-    pass: "J4R8eUEJ3QckNPM4Bm", // process.env.EMAIL_PASSWORD!, // Your email password or app password
+    user: "jewel.green12@ethereal.email", // process.env.EMAIL_USER!,
+    pass: "J4R8eUEJ3QckNPM4Bm", // process.env.EMAIL_PASSWORD!,
   },
 });
 
-// Verify connection configuration
 transporter.verify((error, success) => {
   if (error) {
     console.error("Email server connection failed:", error);
