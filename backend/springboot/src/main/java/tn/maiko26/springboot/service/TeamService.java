@@ -17,6 +17,11 @@ public class TeamService {
         throw new ResourceNotImplementedException();
     }
 
+
+    public Team getTeamById(String id){
+        throw new ResourceNotImplementedException();
+    }
+
     public void createTeam(Team team) {
         throw new ResourceNotImplementedException();
     }
@@ -40,6 +45,7 @@ public class TeamService {
 
         throw new ResourceNotImplementedException();
     }
+
 
 
 }
