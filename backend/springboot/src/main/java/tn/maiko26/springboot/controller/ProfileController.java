@@ -2,6 +2,7 @@ package tn.maiko26.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.maiko26.springboot.model.User;
 import tn.maiko26.springboot.model.UserSetting;
@@ -9,47 +10,46 @@ import tn.maiko26.springboot.service.ProfileService;
 
 @RestController
 @RequestMapping("/profile")
-
+@PreAuthorize("hasAnyRole('user','admin')")
 public class ProfileController {
 
     @Autowired
-    ProfileService profileService;
+    private ProfileService profileService;
 
+    // Get User Profile
     @GetMapping
-    public ResponseEntity<?> getUserProfile() {
-
+    public ResponseEntity<User> getUserProfile() {
         User user = profileService.getCurrentUser();
-        return ResponseEntity.ok().body(user);
-
-
+        return ResponseEntity.ok(user);
     }
 
+    // Update User Profile
     @PutMapping
-    public ResponseEntity<?> updateProfile(@RequestBody User user) {
-
-        profileService.updateProfile(user);
-        return ResponseEntity.ok().body("Successful");
-
-
+    public ResponseEntity<String> updateProfile(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String avatarPath
+    ) {
+        profileService.updateProfile(name, phoneNumber, avatarPath);
+        return ResponseEntity.ok("Profile updated successfully");
     }
 
+    // Update User Password
     @PutMapping("/password")
-    public ResponseEntity<?> updateProfile(@RequestBody String password) {
-
-        profileService.updatePassword(password);
-        return ResponseEntity.ok().body("Successful");
-
-
+    public ResponseEntity<String> updatePassword(
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword
+    ) {
+        profileService.updatePassword(currentPassword, newPassword);
+        return ResponseEntity.ok("Password updated successfully");
     }
 
+    // Update Notification Settings
     @PutMapping("/settings")
-    public ResponseEntity<?> updateProfile(@RequestBody UserSetting newSetting) {
-
+    public ResponseEntity<String> updateNotificationSettings(
+            @RequestBody UserSetting newSetting
+    ) {
         profileService.updateNotificationSettings(newSetting);
-        return ResponseEntity.ok().body("Successful");
-
-
+        return ResponseEntity.ok("Notification settings updated successfully");
     }
-
-
 }

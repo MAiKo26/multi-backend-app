@@ -2,6 +2,7 @@ package tn.maiko26.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.maiko26.springboot.model.Task;
 import tn.maiko26.springboot.model.relations.TaskComment;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@PreAuthorize("hasAnyRole('user','admin')")
 public class TaskController {
 
     @Autowired
