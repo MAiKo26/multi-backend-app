@@ -2,6 +2,13 @@ package tn.maiko26.springboot.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import tn.maiko26.springboot.model.Session;
+import tn.maiko26.springboot.model.User;
+import tn.maiko26.springboot.model.relations.TeamMember;
 
-public interface TeamMemberRepository extends JpaRepository<Session, String> {
+import java.util.List;
+
+public interface TeamMemberRepository extends JpaRepository<TeamMember, String> {
+    List<User> findAllById(String teamId);
+
+    List<User> findAllByTeamIdWithUsers(String teamId);
 }
