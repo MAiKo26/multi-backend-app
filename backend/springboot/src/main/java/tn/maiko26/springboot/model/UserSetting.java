@@ -27,4 +27,11 @@ public class UserSetting {
 
     @Column(name = "task_reminders", nullable = false, columnDefinition = "boolean default true")
     private Boolean taskReminders = true;
+
+    public UserSetting(User user){
+        this.user = user;
+        this.userEmail = user.getEmail();
+        this.emailDigest = true;
+        this.taskReminders = true;
+    }
 }

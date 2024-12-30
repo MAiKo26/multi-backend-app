@@ -1,6 +1,9 @@
 package tn.maiko26.springboot.model.relations;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import tn.maiko26.springboot.model.Task;
 import tn.maiko26.springboot.model.User;
 
@@ -8,6 +11,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "task_comments")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class TaskComment {
     @Id
     @Column(name = "comment_id")
