@@ -1,8 +1,11 @@
 using dotnet.Configuration;
 using dotnet.Data;
+using dotnet.exceptions;
 using dotnet.Interfaces;
 using dotnet.Mappers;
+using dotnet.Middlewares;
 using dotnet.Services;
+using dotnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -19,6 +22,10 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<FileUploadUtil>(new FileUploadUtil("C:/path/to/your/upload/directory"));
+builder.Services.AddTransient<FileUploadService>();
+
+
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -54,12 +61,15 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-app.UseMiddleware<NotFoundMiddleware>();
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("CorsPolicy");
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

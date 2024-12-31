@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 
 namespace dotnet.Utils;
 
-public static class TokenUtils
+public static class CryptoUtil
 {
     public static string GenerateRandomToken(int size = 32)
     {

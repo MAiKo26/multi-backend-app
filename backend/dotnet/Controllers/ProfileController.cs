@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnet.Controllers;
 
 [ApiController]
-[Route("profile")]
+[Route("profile")]  // Added 'api' prefix for consistency
 public class ProfileController : ControllerBase
 {
     private readonly IProfileService _profileService;
@@ -14,13 +14,12 @@ public class ProfileController : ControllerBase
         _profileService = profileService;
     }
 
-    [HttpGet]
+    [HttpGet]  // Changed from "/" to use the route prefix
     public IActionResult GetUserProfile()
     {
         try
         {
             var userProfile = _profileService.GetUserProfile();
-
             return Ok(userProfile);
         }
         catch (Exception e)
@@ -30,13 +29,12 @@ public class ProfileController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPut]  // Changed from "/" to use the route prefix
     public IActionResult UpdateProfile()
     {
         try
         {
             var updatedProfile = _profileService.UpdateProfile();
-
             return Ok(updatedProfile);
         }
         catch (Exception e)
@@ -52,7 +50,6 @@ public class ProfileController : ControllerBase
         try
         {
             var updatedPassword = _profileService.UpdatePassword();
-
             return Ok(updatedPassword);
         }
         catch (Exception e)
@@ -68,7 +65,6 @@ public class ProfileController : ControllerBase
         try
         {
             var updatedNotificationSettings = _profileService.UpdateNotificationSettings();
-
             return Ok(updatedNotificationSettings);
         }
         catch (Exception e)

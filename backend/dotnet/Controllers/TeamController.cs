@@ -62,7 +62,7 @@ public class TeamController : ControllerBase
         }
     }
     
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public IActionResult DeleteTeam([FromQuery] string id)
     {
         try
@@ -94,7 +94,7 @@ public class TeamController : ControllerBase
         }
     }
     
-    [HttpPost]
+    [HttpGet("/teamsbyuser")]
     public IActionResult GetTeamsByUser()
     {
         try

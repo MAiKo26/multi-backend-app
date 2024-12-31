@@ -62,7 +62,7 @@ public class TaskController : ControllerBase
         }
     }
     
-    [HttpDelete]
+    [HttpDelete("{taskId}")]
     public IActionResult DeleteTask([FromQuery] string taskId)
     {
         try

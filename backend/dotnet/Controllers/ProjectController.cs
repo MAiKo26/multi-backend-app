@@ -46,7 +46,7 @@ public class ProjectController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("/members")]
     public IActionResult AddMembersToProject()
     {
         try
@@ -62,7 +62,7 @@ public class ProjectController : ControllerBase
         }
     }
     
-    [HttpPost]
+    [HttpDelete("{id}")]
     public IActionResult DeleteProject()
     {
         try

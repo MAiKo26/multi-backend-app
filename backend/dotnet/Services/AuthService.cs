@@ -63,7 +63,7 @@ public class AuthService : IAuthService
             throw new ArgumentException("Email already exists");
 
         var hashedPassword = HashPassword(password);
-        var verificationToken = TokenUtils.GenerateRandomToken();
+        var verificationToken = CryptoUtil.GenerateRandomToken();
 
         var user = new User
         {
@@ -96,7 +96,7 @@ public class AuthService : IAuthService
         var user = _context.Users.SingleOrDefault(u => u.Email == email);
         if (user == null) throw new ArgumentException("Email not found");
 
-        var resetToken = TokenUtils.GenerateRandomToken();
+        var resetToken = CryptoUtil.GenerateRandomToken();
         user.ResetPasswordToken = resetToken;
         user.ResetPasswordExpiry = DateTime.UtcNow.AddHours(1);
 
