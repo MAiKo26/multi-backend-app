@@ -5,14 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.maiko26.springboot.model.Team;
-import tn.maiko26.springboot.model.User;
 import tn.maiko26.springboot.service.TeamService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/teams")
-@PreAuthorize("hasRole('admin')")
+@PreAuthorize("hasRole('ROLE_admin')")
 public class TeamController {
 
     @Autowired
@@ -55,20 +54,19 @@ public class TeamController {
     }
 
     @PostMapping("/members")
-    public ResponseEntity<?> addMemberToTeam(@RequestBody User user) {
+    public ResponseEntity<?> addMemberToTeam(@RequestBody String teamId, String email) {
 
-        teamService.addMemberToTeam(user);
+        teamService.addMemberToTeam(teamId, email);
         return ResponseEntity.ok().body("Successful");
 
 
     }
 
     @GetMapping("/byuser/:email")
-    @PreAuthorize("hasAnyRole('user','admin')")
     public ResponseEntity<?> getTeamsByUserEmail(@RequestParam String email) {
 
-        teamService.getTeamsByUserEmail(email);
-        return ResponseEntity.ok().body("Successful");
+        List<Team> teams = teamService.getTeamsByUserEmail(email);
+        return ResponseEntity.ok().body(teams);
 
 
     }

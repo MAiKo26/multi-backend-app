@@ -3,7 +3,6 @@ package tn.maiko26.springboot.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.maiko26.springboot.exception.CustomException;
-import tn.maiko26.springboot.exception.ResourceNotImplementedException;
 import tn.maiko26.springboot.model.Task;
 import tn.maiko26.springboot.model.relations.StarredTask;
 import tn.maiko26.springboot.model.relations.TaskComment;
@@ -45,17 +44,18 @@ public class TaskService {
     }
 
     // Update an existing task
-    public Task updateTask(String taskId, Task newTask) {
+    public Task updateTask(String name, String description, Boolean finished, String taskId) {
         Optional<Task> existingTask = taskRepository.findById(taskId);
         if (existingTask.isPresent()) {
             Task updatedTask = existingTask.get();
-            updatedTask.setName(newTask.getName());
-            updatedTask.setDescription(newTask.getDescription());
-            updatedTask.setFinished(newTask.getFinished());
-            updatedTask.setFinishedBy(newTask.getFinishedBy());
+            updatedTask.setName(name);
+            updatedTask.setDescription(description);
+            updatedTask.setFinished(finished);
+            updatedTask.setFinishedBy(finished ? userService.getUserByEmail(userService.getCurrentUserEmail()) : null);
             return taskRepository.save(updatedTask); // Save the updated task entity
+        } else {
+            throw new CustomException("Task doesn't exist", 400);
         }
-        throw new ResourceNotImplementedException(); // Throw exception if task doesn't exist
     }
 
     // Delete task by id
@@ -70,7 +70,7 @@ public class TaskService {
 
     // Star or unstar a task
     public void starringTask(String taskId, String userEmail) {
-        Optional<StarredTask> existingStar = starredTaskRepository.findByTaskIdAndUserId(taskId, userEmail);
+        Optional<StarredTask> existingStar = starredTaskRepository.findByTaskAndUser(taskRepository.findById(taskId).orElseThrow(() -> new CustomException("Couldn't find the task", 400)), userService.getUserByEmail(userEmail));
 
         if (existingStar.isPresent()) {
             starredTaskRepository.delete(existingStar.get()); // If already starred, unstar the task

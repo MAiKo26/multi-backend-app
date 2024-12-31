@@ -39,7 +39,7 @@ public class ProjectService {
             throw new CustomException("No team provided",400);
         }
 
-        return projectRepository.findByTeamId(teamId);
+        return projectRepository.findByTeam(teamService.getTeamById(teamId));
     }
 
     public Project createProject(String name, String teamId) {
@@ -65,13 +65,17 @@ public class ProjectService {
         return savedProject;
     }
 
+    public Project getProjectById(String projectid){
+        return projectRepository.findById(projectid).orElseThrow(()-> new CustomException("No Project Exists",400));
+    }
+
     public void addMembersToProject(String projectId, String email) {
         if (projectId == null || email == null || email.isBlank()) {
             throw new CustomException("Invalid member data",400);
         }
 
         Optional<ProjectMember> existingMember = projectMemberRepository
-                .findByProjectIdAndEmail(projectId, email);
+                .findByProjectAndUser(this.getProjectById(projectId), userService.getUserByEmail(email));
 
         if (existingMember.isPresent()) {
             throw new CustomException("User already in project",400);

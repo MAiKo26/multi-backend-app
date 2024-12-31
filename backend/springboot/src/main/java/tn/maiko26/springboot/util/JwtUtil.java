@@ -7,6 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import tn.maiko26.springboot.model.User;
+import tn.maiko26.springboot.service.UserService;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -17,6 +19,11 @@ import java.util.List;
 public class JwtUtil {
     // Generate a secure key using a sufficiently long secret
     private final Key secret = Keys.hmacShaKeyFor("YourVeryLongAndComplexSecretKeyHerePleaseMakeItLongEnough".getBytes(StandardCharsets.UTF_8));
+    private final UserService userService;
+
+    public JwtUtil(UserService userService) {
+        this.userService = userService;
+    }
 
     public String generateToken(String email) {
         return Jwts.builder()
@@ -49,7 +56,8 @@ public class JwtUtil {
     }
 
     public Authentication getAuthentication(String email) {
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("user"));
+        User user = userService.getUserByEmail(email);
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
         return new UsernamePasswordAuthenticationToken(email, null, authorities);
     }
 }

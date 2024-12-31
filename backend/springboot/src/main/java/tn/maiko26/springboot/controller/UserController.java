@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tn.maiko26.springboot.dto.UserDto;
+import tn.maiko26.springboot.dto.UserWithSessionDto;
 import tn.maiko26.springboot.dto.mappers.UserMapper;
 import tn.maiko26.springboot.model.User;
+import tn.maiko26.springboot.model.relations.TeamMember;
 import tn.maiko26.springboot.service.UserService;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class UserController {
     @GetMapping("/byteam/:teamId")
     public ResponseEntity<?> getAllUsersByTeam(@RequestParam String teamId) {
 
-        List<User> users = userService.getAllUsersByTeam(teamId);
+        List<TeamMember> users = userService.getAllUsersByTeam(teamId);
 
         return ResponseEntity.ok().body(users);
 
@@ -53,7 +55,7 @@ public class UserController {
     @GetMapping("/bysession/:session")
     public ResponseEntity<?> getUserDetailsBySession(@RequestParam String sessionId) {
 
-        User user = userService.getUserDetailsBySession(sessionId);
+        UserWithSessionDto user = userService.getUserDetailsBySession(sessionId);
 
         return ResponseEntity.ok().body(user);
 

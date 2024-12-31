@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface SessionRepository extends JpaRepository<Session, String> {
     void deleteBySessionId(String sessionId);
 
-    @Query("SELECT new tn.maiko26.springboot.dto.UserWithSessionDto(s.sessionId, u.email, u.name, u.avatar, u.role, u.phoneNumber, u.lastLogin) " +
-            "FROM Session s INNER JOIN User u ON s.email = u.email " +
+    @Query("SELECT (s.sessionId, u.email, u.name, u.avatarUrl, u.role, u.phoneNumber, u.lastLogin) " +
+            "FROM Session s INNER JOIN User u ON s.user.email = u.email " +
             "WHERE s.sessionId = :sessionId")
     Optional<UserWithSessionDto> findUserDetailsBySession(String sessionId);
 }

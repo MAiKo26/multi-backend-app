@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import tn.maiko26.springboot.dto.UserWithSessionDto;
 import tn.maiko26.springboot.exception.CustomException;
 import tn.maiko26.springboot.model.User;
+import tn.maiko26.springboot.model.relations.TeamMember;
 import tn.maiko26.springboot.repository.SessionRepository;
 import tn.maiko26.springboot.repository.TeamMemberRepository;
 import tn.maiko26.springboot.repository.UserRepository;
-import tn.maiko26.springboot.dto.UserWithSessionDto;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class UserService {
 
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired
+    private TeamService teamService;
 
     // Get all users
     public List<User> getAllUsers() {
@@ -31,8 +34,8 @@ public class UserService {
     }
 
     // Get all users by team
-    public List<User> getAllUsersByTeam(String teamId) {
-        return teamMemberRepository.findAllByTeamIdWithUsers(teamId);
+    public List<TeamMember> getAllUsersByTeam(String teamId) {
+        return teamMemberRepository.findAllByTeam(teamService.getTeamById(teamId));
     }
 
     // Get user details by session
@@ -67,5 +70,9 @@ public class UserService {
     public User getUserByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException("User doesn't exist", 400));
+    }
+
+    public User getCurrentUser() {
+        return userRepository.findByEmail(this.getCurrentUserEmail()).orElseThrow(() -> new CustomException("You are not Logged in.", 501));
     }
 }

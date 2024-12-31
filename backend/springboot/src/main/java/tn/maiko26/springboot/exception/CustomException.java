@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.ErrorResponse;
 
 @Getter
-public class CustomException extends RuntimeException  {
+public class CustomException extends RuntimeException {
     private final int statusCode;
 
     public CustomException(String message, int statusCode) {
@@ -15,4 +15,7 @@ public class CustomException extends RuntimeException  {
 
     }
 
+    public int getStatusCode() {
+        return this.statusCode;
+    }
 }

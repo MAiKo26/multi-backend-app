@@ -1,6 +1,5 @@
 package tn.maiko26.springboot.controller;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,17 +91,132 @@ public class AuthController {
 
 }
 
-@Data
 class AuthRequestData {
     private String email;
     private String password;
     private String name;
+
+    public AuthRequestData() {
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof AuthRequestData)) return false;
+        final AuthRequestData other = (AuthRequestData) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$email = this.getEmail();
+        final Object other$email = other.getEmail();
+        if (this$email == null ? other$email != null : !this$email.equals(other$email)) return false;
+        final Object this$password = this.getPassword();
+        final Object other$password = other.getPassword();
+        if (this$password == null ? other$password != null : !this$password.equals(other$password)) return false;
+        final Object this$name = this.getName();
+        final Object other$name = other.getName();
+        if (this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof AuthRequestData;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $email = this.getEmail();
+        result = result * PRIME + ($email == null ? 43 : $email.hashCode());
+        final Object $password = this.getPassword();
+        result = result * PRIME + ($password == null ? 43 : $password.hashCode());
+        final Object $name = this.getName();
+        result = result * PRIME + ($name == null ? 43 : $name.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "AuthRequestData(email=" + this.getEmail() + ", password=" + this.getPassword() + ", name=" + this.getName() + ")";
+    }
 }
 
-@Data
 class PasswordResetRequestDTO {
     private String newPassword;
     private String resetPasswordToken;
+
+    public PasswordResetRequestDTO() {
+    }
+
+    public String getNewPassword() {
+        return this.newPassword;
+    }
+
+    public String getResetPasswordToken() {
+        return this.resetPasswordToken;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof PasswordResetRequestDTO)) return false;
+        final PasswordResetRequestDTO other = (PasswordResetRequestDTO) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$newPassword = this.getNewPassword();
+        final Object other$newPassword = other.getNewPassword();
+        if (this$newPassword == null ? other$newPassword != null : !this$newPassword.equals(other$newPassword))
+            return false;
+        final Object this$resetPasswordToken = this.getResetPasswordToken();
+        final Object other$resetPasswordToken = other.getResetPasswordToken();
+        if (this$resetPasswordToken == null ? other$resetPasswordToken != null : !this$resetPasswordToken.equals(other$resetPasswordToken))
+            return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof PasswordResetRequestDTO;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $newPassword = this.getNewPassword();
+        result = result * PRIME + ($newPassword == null ? 43 : $newPassword.hashCode());
+        final Object $resetPasswordToken = this.getResetPasswordToken();
+        result = result * PRIME + ($resetPasswordToken == null ? 43 : $resetPasswordToken.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "PasswordResetRequestDTO(newPassword=" + this.getNewPassword() + ", resetPasswordToken=" + this.getResetPasswordToken() + ")";
+    }
 }
 
 class AuthResponse {

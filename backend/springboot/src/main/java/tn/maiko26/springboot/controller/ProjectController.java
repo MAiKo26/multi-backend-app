@@ -18,27 +18,27 @@ public class ProjectController {
     ProjectService projectService;
 
     @GetMapping
-    public ResponseEntity<?> getAllProjects() {
+    public ResponseEntity<?> getAllProjects(@RequestParam String teamId) {
 
-        List<Project> projects = projectService.getAllProjects();
+        List<Project> projects = projectService.getAllProjects(teamId);
         return ResponseEntity.ok().body(projects);
 
 
     }
 
     @PostMapping
-    public ResponseEntity<?> createProject(@RequestBody Project project) {
+    public ResponseEntity<?> createProject(@RequestBody String name, String teamId) {
 
-        projectService.createProject(project);
+        projectService.createProject(name,teamId);
         return ResponseEntity.ok().body("Successful");
 
 
     }
 
     @PostMapping("/members")
-    public ResponseEntity<?> addMembersToProject(@RequestBody String password) {
+    public ResponseEntity<?> addMembersToProject(@RequestBody String projectId, String email) {
 
-        projectService.addMembersToProject(password);
+        projectService.addMembersToProject(projectId,email);
         return ResponseEntity.ok().body("Successful");
 
 

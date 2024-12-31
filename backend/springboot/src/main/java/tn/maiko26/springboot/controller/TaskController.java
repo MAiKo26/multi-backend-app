@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.maiko26.springboot.model.Task;
 import tn.maiko26.springboot.model.relations.TaskComment;
 import tn.maiko26.springboot.service.TaskService;
+import tn.maiko26.springboot.service.UserService;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class TaskController {
 
     @Autowired
     TaskService taskService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping
@@ -38,9 +41,9 @@ public class TaskController {
     }
 
     @PutMapping("/:taskId")
-    public ResponseEntity<?> updateTask(@RequestBody Task newTask, @RequestParam String taskId) {
+    public ResponseEntity<?> updateTask(@RequestBody String name, String description, boolean finished, @RequestParam String taskId) {
 
-        taskService.updateTask(newTask, taskId);
+        taskService.updateTask(name, description, finished, taskId);
         return ResponseEntity.ok().body("Successful");
 
 
@@ -66,8 +69,9 @@ public class TaskController {
 
     @PostMapping("/:taskId/star")
     public ResponseEntity<?> starringTask(@RequestParam String taskId) {
+        String currentUserEmail = userService.getCurrentUserEmail();
 
-        taskService.starringTask(taskId);
+        taskService.starringTask(taskId, currentUserEmail);
         return ResponseEntity.ok().body("Successful");
 
 
