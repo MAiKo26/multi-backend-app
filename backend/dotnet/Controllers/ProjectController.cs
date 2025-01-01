@@ -13,46 +13,36 @@ public class ProjectController : ControllerBase
     {
         _projectService = projectService;
     }
-    
+
     [HttpGet]
-    public IActionResult GetAllProjects()
+    public IActionResult GetAllProjects([FromBody] string teamId)
     {
-        
-            var userProject = _projectService.GetAllProjects();
+        var userProject = _projectService.GetAllProjects(teamId);
 
-            return Ok(userProject);
-        
+        return Ok(userProject);
     }
-    
-    [HttpPost]
-    public IActionResult CreateProject()
-    {
-        
-             _projectService.CreateProject();
 
-            return Ok();
-        
+    [HttpPost]
+    public IActionResult CreateProject([FromBody] string name, string teamId)
+    {
+        _projectService.CreateProject(name, teamId);
+
+        return Ok();
     }
 
     [HttpPost("/members")]
-    public IActionResult AddMembersToProject()
+    public IActionResult AddMembersToProject([FromBody] string projectId, string email)
     {
-        
-            _projectService.AddMemberToProject();
+        _projectService.AddMemberToProject(projectId, email);
 
-            return Ok();
-        
+        return Ok();
     }
-    
+
     [HttpDelete("{id}")]
-    public IActionResult DeleteProject()
+    public IActionResult DeleteProject([FromQuery] string id)
     {
-        
-            _projectService.DeleteProject();
+        _projectService.DeleteProject(id);
 
-            return Ok();
-        
+        return Ok();
     }
-
-
 }
