@@ -33,7 +33,8 @@ public class JwtUtil
 
     public bool ValidateToken(string token)
     {
-        
+        try
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_secretKey);
 
@@ -47,7 +48,7 @@ public class JwtUtil
 
             return validatedToken != null;
         }
-        catch
+        catch (Exception e)
         {
             return false;
         }
