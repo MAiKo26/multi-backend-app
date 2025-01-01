@@ -1,4 +1,5 @@
 using dotnet.Interfaces;
+using dotnet.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet.Controllers;
@@ -13,65 +14,52 @@ public class TeamController : ControllerBase
     {
         _teamService = teamService;
     }
-    
+
     [HttpGet]
     public IActionResult GetAllTeams()
     {
-        
-            var allTeams = _teamService.GetAllTeams();
+        var allTeams = _teamService.GetAllTeams();
 
-            return Ok(allTeams);
-        
+        return Ok(allTeams);
     }
-    
-    [HttpPost]
-    public IActionResult CreateTeam()
-    {
-        
-            _teamService.CreateTeam();
 
-            return Ok();
-        
+    [HttpPost]
+    public IActionResult CreateTeam([FromBody] Team team)
+    {
+        _teamService.CreateTeam(team);
+
+        return Ok();
     }
 
     [HttpPut]
-    public IActionResult UpdateTeam([FromQuery] string id)
+    public IActionResult UpdateTeam([FromBody] string teamId, Team team)
     {
-        
-            _teamService.UpdateTeam(id);
+        _teamService.UpdateTeam(teamId, team);
 
-            return Ok();
-        
+        return Ok();
     }
-    
+
     [HttpDelete("{id}")]
     public IActionResult DeleteTeam([FromQuery] string id)
     {
-        
-            _teamService.DeleteTeam(id);
+        _teamService.DeleteTeam(id);
 
-            return Ok();
-        
+        return Ok();
     }
-    
+
     [HttpPost("members")]
-    public IActionResult AddMemberToTeam()
+    public IActionResult AddMemberToTeam([FromBody] string teamId, string email)
     {
-        
-            _teamService.AddMemberToTeam();
+        _teamService.AddMemberToTeam(teamId, email);
 
-            return Ok();
-        
-    }
-    
-    [HttpGet("/teamsbyuser")]
-    public IActionResult GetTeamsByUser()
-    {
-        
-            _teamService.GetTeamsByUser();
-
-            return Ok();
-        
+        return Ok();
     }
 
+    [HttpGet("/teamsbyuser/{email}")]
+    public IActionResult GetTeamsByUser([FromQuery] string email)
+    {
+        _teamService.GetTeamsByUser(email);
+
+        return Ok();
+    }
 }
