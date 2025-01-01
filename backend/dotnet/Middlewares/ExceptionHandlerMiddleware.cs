@@ -1,29 +1,45 @@
-namespace dotnet.exceptions;
-
-using Microsoft.AspNetCore.Http;
+using System.Security.Authentication;
 using System.Text.Json;
+
+namespace dotnet.exceptions;
 
 public class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next)
+    public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        
+        try
+        {
             await _next(context);
         }
         catch (CustomException ex)
         {
             await HandleExceptionAsync(context, ex.StatusCode, ex.Message);
         }
-        catch (Exception)
+        catch (AuthenticationException ex)
         {
-            await HandleExceptionAsync(context, 500, "Internal server error");
+            await HandleAuthenticationExceptionAsync(context, ex);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            await HandleAccessDeniedExceptionAsync(context, ex);
+        }
+        catch (NotFoundResponse ex)
+        {
+            await HandleExceptionAsync(context, StatusCodes.Status404NotFound, "Endpoint not found");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unhandled exception occurred");
+            await HandleExceptionAsync(context, StatusCodes.Status500InternalServerError, "Internal server error");
         }
     }
 
@@ -32,22 +48,39 @@ public class ExceptionHandlerMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = statusCode;
 
+        var errorResponse = new ErrorResponse(statusCode, message);
+        return context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
+    }
+
+    private static Task HandleAuthenticationExceptionAsync(HttpContext context, AuthenticationException ex)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
         var response = new
         {
-            status = statusCode,
-            message,
             timestamp = DateTime.UtcNow,
+            status = StatusCodes.Status401Unauthorized,
+            message = $"Not Authenticated: {ex.Message}",
             path = context.Request.Path
         };
 
         return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
-}
 
-public static class ExceptionHandlerMiddlewareExtensions
-{
-    public static void AddExceptionHandlerMiddleware(this IServiceCollection services)
+    private static Task HandleAccessDeniedExceptionAsync(HttpContext context, UnauthorizedAccessException ex)
     {
-        services.AddScoped<ExceptionHandlerMiddleware>();
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+
+        var response = new
+        {
+            timestamp = DateTime.UtcNow,
+            status = StatusCodes.Status403Forbidden,
+            message = $"Not Authorized: {ex.Message}",
+            path = context.Request.Path
+        };
+
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }
