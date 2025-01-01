@@ -1,10 +1,11 @@
 using dotnet.Interfaces;
+using dotnet.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet.Controllers;
 
 [ApiController]
-[Route("profile")]  // Added 'api' prefix for consistency
+[Route("profile")] // Added 'api' prefix for consistency
 public class ProfileController : ControllerBase
 {
     private readonly IProfileService _profileService;
@@ -14,39 +15,31 @@ public class ProfileController : ControllerBase
         _profileService = profileService;
     }
 
-    [HttpGet]  // Changed from "/" to use the route prefix
+    [HttpGet] // Changed from "/" to use the route prefix
     public IActionResult GetUserProfile()
     {
-        
-            var userProfile = _profileService.GetUserProfile();
-            return Ok(userProfile);
-        
+        var userProfile = _profileService.GetCurrentUser();
+        return Ok(userProfile);
     }
 
-    [HttpPut]  // Changed from "/" to use the route prefix
-    public IActionResult UpdateProfile()
+    [HttpPut] // Changed from "/" to use the route prefix
+    public IActionResult UpdateProfile([FromBody] string name, string phoneNumber, string avatarPath)
     {
-        
-            var updatedProfile = _profileService.UpdateProfile();
-            return Ok(updatedProfile);
-        
+        var updatedProfile = _profileService.UpdateProfile(name, phoneNumber, avatarPath);
+        return Ok(updatedProfile);
     }
 
     [HttpPut("password")]
-    public IActionResult UpdatePassword()
+    public IActionResult UpdatePassword([FromBody] string currentPassword, string newPassword)
     {
-        
-            var updatedPassword = _profileService.UpdatePassword();
-            return Ok(updatedPassword);
-        
+        _profileService.UpdatePassword(currentPassword, newPassword);
+        return Ok();
     }
 
     [HttpPut("settings")]
-    public IActionResult UpdateNotificationSettings()
+    public IActionResult UpdateNotificationSettings([FromBody] UserSetting newSetting)
     {
-        
-            var updatedNotificationSettings = _profileService.UpdateNotificationSettings();
-            return Ok(updatedNotificationSettings);
-        
+        _profileService.UpdateNotificationSettings(newSetting);
+        return Ok();
     }
 }
