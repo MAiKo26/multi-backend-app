@@ -17,60 +17,36 @@ public class ProfileController : ControllerBase
     [HttpGet]  // Changed from "/" to use the route prefix
     public IActionResult GetUserProfile()
     {
-        try
-        {
+        
             var userProfile = _profileService.GetUserProfile();
             return Ok(userProfile);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        
     }
 
     [HttpPut]  // Changed from "/" to use the route prefix
     public IActionResult UpdateProfile()
     {
-        try
-        {
+        
             var updatedProfile = _profileService.UpdateProfile();
             return Ok(updatedProfile);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        
     }
 
     [HttpPut("password")]
     public IActionResult UpdatePassword()
     {
-        try
-        {
+        
             var updatedPassword = _profileService.UpdatePassword();
             return Ok(updatedPassword);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        
     }
 
     [HttpPut("settings")]
     public IActionResult UpdateNotificationSettings()
     {
-        try
-        {
+        
             var updatedNotificationSettings = _profileService.UpdateNotificationSettings();
             return Ok(updatedNotificationSettings);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        
     }
 }

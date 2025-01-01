@@ -14,8 +14,7 @@ public class ExceptionHandlerMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        try
-        {
+        
             await _next(context);
         }
         catch (CustomException ex)

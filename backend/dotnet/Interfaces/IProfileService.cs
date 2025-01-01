@@ -1,14 +1,18 @@
+using dotnet.Models;
 using dotnet.Services;
 
 namespace dotnet.Interfaces;
 
 public interface IProfileService
 {
-    ProfileService GetUserProfile();
+    User GetCurrentUser();
 
-    ProfileService UpdateProfile();
+    User UpdateProfile(string name, string phoneNumber, string avatarPath);
+
+    void UpdatePassword(string currentPassword, string newPassword);
+
+    void UpdateNotificationSettings(UserSetting newSetting);
     
-    ProfileService UpdatePassword();
     
-    ProfileService UpdateNotificationSettings();
+    
 }

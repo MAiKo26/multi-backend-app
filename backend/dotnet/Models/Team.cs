@@ -8,7 +8,7 @@ namespace dotnet.Models
     {
         [Key]
         [Column("team_id")]
-        public int Id { get; set; }
+        public String Id { get; set; }
 
         [Required]
         [Column("name")]

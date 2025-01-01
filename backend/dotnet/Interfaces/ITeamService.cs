@@ -5,9 +5,10 @@ namespace dotnet.Interfaces;
 public interface ITeamService
 {
     IEnumerable<Team> GetAllTeams();
-    void CreateTeam();
-    void UpdateTeam(string id);
+    Team getTeamById(String id);
+    void CreateTeam(Team team);
+    void UpdateTeam(string teamId, Team team);
     void DeleteTeam(string id);
-    void AddMemberToTeam();
-    IEnumerable<Team> GetTeamsByUser();
+    void AddMemberToTeam(string teamId, string email);
+    IEnumerable<Team> GetTeamsByUser(string email);
 }

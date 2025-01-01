@@ -1,5 +1,7 @@
 using dotnet.Interfaces;
+using dotnet.Models;
 using Microsoft.AspNetCore.Mvc;
+using Task = dotnet.Models.Task;
 
 namespace dotnet.Controllers;
 
@@ -13,101 +15,53 @@ public class TaskController : ControllerBase
     {
         _taskService = taskService;
     }
-    
+
     [HttpGet("project")]
-    public IActionResult GetAllTasksForProject()
+    public IActionResult GetAllTasksForProject([FromQuery] string projectId)
     {
-        try
-        {
-            var allTasks = _taskService.GetAllTasksForProject();
+        var allTasks = _taskService.GetAllTasksForProject(projectId);
 
-            return Ok(allTasks);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        return Ok(allTasks);
     }
-    
-    [HttpPost]
-    public IActionResult CreateTask()
-    {
-        try
-        {
-            _taskService.CreateTask();
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+    [HttpPost]
+    public IActionResult CreateTask([FromBody] Task task)
+    {
+        _taskService.CreateTask(task);
+
+        return Ok();
     }
 
     [HttpPut]
-    public IActionResult UpdateTask([FromQuery] string taskId)
+    public IActionResult UpdateTask([FromBody] string taskId,Task task)
     {
-        try
-        {
-            _taskService.UpdateTask(taskId);
+        _taskService.UpdateTask(task.Name,task.Description,task.Finished,taskId);
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        return Ok();
     }
-    
+
     [HttpDelete("{taskId}")]
     public IActionResult DeleteTask([FromQuery] string taskId)
     {
-        try
-        {
-            _taskService.DeleteTask(taskId);
+        _taskService.DeleteTask(taskId);
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        return Ok();
     }
-    
+
     [HttpPost(":taskId/comments")]
-    public IActionResult AddCommentToTask([FromQuery] string taskId)
+    public IActionResult AddCommentToTask([FromBody] string taskId, string comment)
     {
-        try
-        {
-            _taskService.AddCommentToTask(taskId);
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        _taskService.AddCommentToTask(taskId,comment);
+
+        return Ok();
     }
-    
+
     [HttpPost(":taskId/star")]
-    public IActionResult StarringTask([FromQuery] string taskId)
+    public IActionResult StarringTask([FromBody] string taskId,string email)
     {
-        try
-        {
-            _taskService.StarringTask(taskId);
+        _taskService.StarringTask(taskId,email);
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        return Ok();
     }
-
 }
