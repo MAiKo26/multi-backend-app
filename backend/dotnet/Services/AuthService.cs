@@ -13,18 +13,17 @@ public class AuthService : IAuthService
 {
     private readonly DataContext _context;
     private readonly IEmailSenderService _emailSenderService;
-    private readonly ILogger<AuthService> _logger;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HashPasswordService _hashPasswordUtil;
 
     public AuthService(
         DataContext context,
-        IEmailSenderService emailSenderService,
-        ILogger<AuthService> logger,JwtSecurityTokenHandler jwtSecurityTokenHandler , HashPasswordService hashPasswordUtil)
+        IEmailSenderService emailSenderService, 
+        JwtSecurityTokenHandler jwtSecurityTokenHandler,
+        HashPasswordService hashPasswordUtil)
     {
         _context = context;
         _emailSenderService = emailSenderService;
-        _logger = logger;
         _tokenHandler = jwtSecurityTokenHandler;
         _hashPasswordUtil = hashPasswordUtil;
     }
@@ -154,7 +153,8 @@ public class AuthService : IAuthService
     private string GenerateJwtToken(string email)
     {
         // TODO
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MyVeryVeryReallyKindaNotReallyJustLetMeDoASecretKeyPleAse"));
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes("MyVeryVeryReallyKindaNotReallyJustLetMeDoASecretKeyPleAse"));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             claims: new[] { new Claim(JwtRegisteredClaimNames.Email, email) },
@@ -164,7 +164,6 @@ public class AuthService : IAuthService
         return _tokenHandler.WriteToken(token);
     }
 
-   
 
     private void SaveSession(User user, string token)
     {

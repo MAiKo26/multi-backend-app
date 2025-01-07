@@ -23,17 +23,17 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateProject([FromBody] string name, string teamId)
+    public IActionResult CreateProject([FromBody] CreateProjectRequest request)
     {
-        _projectService.CreateProject(name, teamId);
+        _projectService.CreateProject(request.Name, request.TeamId);
 
         return Ok();
     }
 
     [HttpPost("/members")]
-    public IActionResult AddMembersToProject([FromBody] string projectId, string email)
+    public IActionResult AddMembersToProject([FromBody] AddMemberToProjectRequest request)
     {
-        _projectService.AddMemberToProject(projectId, email);
+        _projectService.AddMemberToProject(request.ProjectId, request.Email);
 
         return Ok();
     }
@@ -45,4 +45,16 @@ public class ProjectController : ControllerBase
 
         return Ok();
     }
+}
+
+public class CreateProjectRequest
+{
+    public string Name { get; set; } 
+    public string TeamId { get; set; } 
+}
+
+public class AddMemberToProjectRequest
+{
+    public string ProjectId { get; set; } 
+    public string Email { get; set; } 
 }

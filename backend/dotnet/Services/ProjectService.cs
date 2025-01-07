@@ -7,98 +7,96 @@ namespace dotnet.Services;
 
 public class ProjectService : IProjectService
 {
-    
     private readonly DataContext _context;
-   private readonly ITeamService _teamService;
-   private readonly IUserService _userService;
-   private readonly ActivityHistoryService _activityService;
+    private readonly ITeamService _teamService;
+    private readonly IUserService _userService;
+    private readonly IActivityHistoryService _activityService;
 
-   public ProjectService(DataContext context, ITeamService teamService, 
-       IUserService userService, ActivityHistoryService activityService)
-   {
-       _context = context;
-       _teamService = teamService;
-       _userService = userService;
-       _activityService = activityService;
-   }
-   
-   public IEnumerable<Project> GetAllProjects(string teamId)
-   {
-       if (string.IsNullOrWhiteSpace(teamId))
-           throw new CustomException("No team provided", 400);
+    public ProjectService(DataContext context, ITeamService teamService,
+        IUserService userService, IActivityHistoryService activityService)
+    {
+        _context = context;
+        _teamService = teamService;
+        _userService = userService;
+        _activityService = activityService;
+    }
 
-       var team = _teamService.getTeamById(teamId);
-       return _context.Projects.Where(p => p.Team == team).ToList();
-   }
+    public IEnumerable<Project> GetAllProjects(string teamId)
+    {
+        if (string.IsNullOrWhiteSpace(teamId))
+            throw new CustomException("No team provided", 400);
 
-   public void CreateProject(string name, string teamId)
-   {
-       if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(teamId))
-           throw new CustomException("Invalid project data", 400);
+        var team = _teamService.getTeamById(teamId);
+        return _context.Projects.Where(p => p.Team == team).ToList();
+    }
 
-       var currentUserEmail = _userService.GetCurrentUserEmail();
-       var team = _teamService.getTeamById(teamId);
-       
-       var newProject = new Project
-       {
-           Name = name,
-           Team = team,
-           CreatedAt = DateTime.Now
-       };
+    public void CreateProject(string name, string teamId)
+    {
+        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(teamId))
+            throw new CustomException("Invalid project data", 400);
 
-       _context.Projects.Add(newProject);
-       _context.SaveChanges();
+        var currentUserEmail = _userService.GetCurrentUserEmail();
+        var team = _teamService.getTeamById(teamId);
 
-       _activityService.LogActivity(currentUserEmail, 
-           $"Created new project: {name} in team {teamId}");
+        var newProject = new Project
+        {
+            Name = name,
+            Team = team,
+            CreatedAt = DateTime.Now
+        };
 
-   }
+        _context.Projects.Add(newProject);
+        _context.SaveChanges();
 
-   public void AddMemberToProject(string projectId, string email)
-   {
-       if (string.IsNullOrWhiteSpace(projectId) || string.IsNullOrWhiteSpace(email))
-           throw new CustomException("Invalid member data", 400);
+        _activityService.LogActivity(currentUserEmail,
+            $"Created new project: {name} in team {teamId}");
+    }
 
-       var project = GetProjectById(projectId);
-       var user = _userService.GetUserByEmail(email);
+    public void AddMemberToProject(string projectId, string email)
+    {
+        if (string.IsNullOrWhiteSpace(projectId) || string.IsNullOrWhiteSpace(email))
+            throw new CustomException("Invalid member data", 400);
 
-       var existingMember = _context.ProjectMembers
-           .FirstOrDefault(pm => pm.Project == project && pm.User == user);
+        var project = GetProjectById(projectId);
+        var user = _userService.GetUserByEmail(email);
 
-       if (existingMember != null)
-           throw new CustomException("User already in project", 400);
+        var existingMember = _context.ProjectMembers
+            .FirstOrDefault(pm => pm.Project == project && pm.User == user);
 
-       var newMember = new ProjectMember
-       {
-           Project = project,
-           User = user
-       };
+        if (existingMember != null)
+            throw new CustomException("User already in project", 400);
 
-       _context.ProjectMembers.Add(newMember);
-       _context.SaveChanges();
+        var newMember = new ProjectMember
+        {
+            Project = project,
+            User = user
+        };
 
-       _activityService.LogActivity(email, 
-           $"Added user {email} to project {projectId}");
-   }
+        _context.ProjectMembers.Add(newMember);
+        _context.SaveChanges();
 
-   public Project GetProjectById(string projectId)
-   {
-       return _context.Projects.FirstOrDefault(p => p.Id == projectId) ??
-           throw new CustomException("No Project Exists", 400);
-   }
+        _activityService.LogActivity(email,
+            $"Added user {email} to project {projectId}");
+    }
 
-   public void DeleteProject(string projectId)
-   {
-       if (string.IsNullOrWhiteSpace(projectId))
-           throw new CustomException("Project ID cannot be null", 400);
+    public Project GetProjectById(string projectId)
+    {
+        return _context.Projects.FirstOrDefault(p => p.Id == projectId) ??
+               throw new CustomException("No Project Exists", 400);
+    }
 
-       var currentUserEmail = _userService.GetCurrentUserEmail();
-       var project = GetProjectById(projectId);
+    public void DeleteProject(string projectId)
+    {
+        if (string.IsNullOrWhiteSpace(projectId))
+            throw new CustomException("Project ID cannot be null", 400);
 
-       _context.Projects.Remove(project);
-       _context.SaveChanges();
+        var currentUserEmail = _userService.GetCurrentUserEmail();
+        var project = GetProjectById(projectId);
 
-       _activityService.LogActivity(currentUserEmail,
-           $"Deleted project: {project.Name}");
-   }
+        _context.Projects.Remove(project);
+        _context.SaveChanges();
+
+        _activityService.LogActivity(currentUserEmail,
+            $"Deleted project: {project.Name}");
+    }
 }

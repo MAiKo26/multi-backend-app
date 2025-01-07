@@ -32,9 +32,9 @@ public class TeamController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult UpdateTeam([FromBody] string teamId, Team team)
+    public IActionResult UpdateTeam([FromBody] UpdateTeamRequest request)
     {
-        _teamService.UpdateTeam(teamId, team);
+        _teamService.UpdateTeam(request.teamId, request.team);
 
         return Ok();
     }
@@ -48,9 +48,9 @@ public class TeamController : ControllerBase
     }
 
     [HttpPost("members")]
-    public IActionResult AddMemberToTeam([FromBody] string teamId, string email)
+    public IActionResult AddMemberToTeam([FromBody] AddMemberToTeamRequest request )
     {
-        _teamService.AddMemberToTeam(teamId, email);
+        _teamService.AddMemberToTeam(request.teamId, request.email);
 
         return Ok();
     }
@@ -62,4 +62,16 @@ public class TeamController : ControllerBase
 
         return Ok();
     }
+}
+
+public class AddMemberToTeamRequest
+{
+    public string teamId { get; set; }
+    public string email { get; set; }
+}
+
+public class UpdateTeamRequest
+{
+    public string teamId { get; set; }
+    public Team team { get; set; }
 }

@@ -1,5 +1,4 @@
 using dotnet.Interfaces;
-using dotnet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Task = dotnet.Models.Task;
 
@@ -33,12 +32,13 @@ public class TaskController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult UpdateTask([FromBody] string taskId,Task task)
+    public IActionResult UpdateTask([FromBody] UpdateTaskRequest request)
     {
-        _taskService.UpdateTask(task.Name,task.Description,task.Finished,taskId);
+        _taskService.UpdateTask(request.Name, request.Description, request.Finished, request.taskId);
 
         return Ok();
     }
+
 
     [HttpDelete("{taskId}")]
     public IActionResult DeleteTask([FromQuery] string taskId)
@@ -49,19 +49,38 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost(":taskId/comments")]
-    public IActionResult AddCommentToTask([FromBody] string taskId, string comment)
+    public IActionResult AddCommentToTask([FromBody] AddCommentToTaskRequest request)
     {
-
-        _taskService.AddCommentToTask(taskId,comment);
+        _taskService.AddCommentToTask(request.taskId, request.comment);
 
         return Ok();
     }
 
     [HttpPost(":taskId/star")]
-    public IActionResult StarringTask([FromBody] string taskId,string email)
+    public IActionResult StarringTask([FromBody] StarTaskRequest request)
     {
-        _taskService.StarringTask(taskId,email);
+        _taskService.StarringTask(request.taskId, request.email);
 
         return Ok();
     }
+}
+
+public class UpdateTaskRequest
+{
+    public string taskId { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public bool Finished { get; set; }
+}
+
+public class AddCommentToTaskRequest
+{
+    public string taskId { get; set; }
+    public string comment { get; set; }
+}
+
+public class StarTaskRequest
+{
+    public string taskId { get; set; }
+    public string email { get; set; }
 }

@@ -23,16 +23,16 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPut] // Changed from "/" to use the route prefix
-    public IActionResult UpdateProfile([FromBody] string name, string phoneNumber, string avatarPath)
+    public IActionResult UpdateProfile([FromBody] UpdateProfileRequest request)
     {
-        var updatedProfile = _profileService.UpdateProfile(name, phoneNumber, avatarPath);
+        var updatedProfile = _profileService.UpdateProfile(request.Name, request.PhoneNumber, request.AvatarPath);
         return Ok(updatedProfile);
     }
 
     [HttpPut("password")]
-    public IActionResult UpdatePassword([FromBody] string currentPassword, string newPassword)
+    public IActionResult UpdatePassword([FromBody] UpdatePasswordRequest request)
     {
-        _profileService.UpdatePassword(currentPassword, newPassword);
+        _profileService.UpdatePassword(request.CurrentPassword, request.NewPassword);
         return Ok();
     }
 
@@ -42,4 +42,17 @@ public class ProfileController : ControllerBase
         _profileService.UpdateNotificationSettings(newSetting);
         return Ok();
     }
+}
+
+public class UpdateProfileRequest
+{
+    public string Name { get; set; }
+    public string PhoneNumber { get; set; }
+    public string AvatarPath { get; set; }
+}
+
+public class UpdatePasswordRequest
+{
+    public string CurrentPassword { get; set; }
+    public string NewPassword { get; set; }
 }
