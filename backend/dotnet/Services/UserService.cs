@@ -10,14 +10,14 @@ namespace dotnet.Services
 {
     public class UserService : IUserService
     {
-               private readonly DataContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly DataContext _context;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITeamService _teamService;
 
-        public UserService(DataContext context, IHttpContextAccessor httpContextAccessor, ITeamService teamService)
+        public UserService(DataContext context, ITeamService teamService)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
             _teamService = teamService;
         }
 
@@ -53,8 +53,9 @@ namespace dotnet.Services
 
         public string GetCurrentUserEmail()
         {
-            return _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Email) ?? 
-                throw new CustomException("User not authenticated", 401);
+            return "example@example.com"; 
+                //_httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Email) ??
+                //throw new CustomException("User not authenticated", 401);
         }
 
         public User GetUserByEmail(string email)

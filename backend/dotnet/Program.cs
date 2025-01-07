@@ -8,21 +8,31 @@ using dotnet.Services;
 using dotnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
+using dotnet.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(UserMapper).Assembly);
 builder.Services.AddControllers();
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<HashPasswordService>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+
+
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActivityHistoryService, ActivityHistoryService>();
+
 builder.Services.AddSingleton<FileUploadUtil>(new FileUploadUtil("C:/path/to/your/upload/directory"));
 builder.Services.AddTransient<FileUploadService>();
 

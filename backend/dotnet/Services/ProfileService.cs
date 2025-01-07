@@ -11,14 +11,13 @@ public class ProfileService : IProfileService
     
      private readonly DataContext _context;
    private readonly IUserService _userService;
-   private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly HashPasswordService _hashPasswordUtil;
 
-   public ProfileService(DataContext context, IUserService userService, IPasswordHasher<User> passwordHasher)
+    public ProfileService(DataContext context, IUserService userService, HashPasswordService hashPasswordUtil)
    {
        _context = context;
        _userService = userService;
-       _passwordHasher = passwordHasher;
-        _userService = userService;
+        _hashPasswordUtil = hashPasswordUtil;
 
     }
 
@@ -46,13 +45,13 @@ public class ProfileService : IProfileService
    {
        var user = GetCurrentUser();
 
-       var passwordVerification = _passwordHasher.VerifyHashedPassword(user, user.Password, currentPassword);
-       if (passwordVerification == PasswordVerificationResult.Failed)
+       var passwordVerification = _hashPasswordUtil.VerifyPassword(user.Password, currentPassword);
+       if (!passwordVerification)
        {
            throw new CustomException("Current password is incorrect", 400);
        }
 
-       user.Password = _passwordHasher.HashPassword(user, newPassword);
+       user.Password = _hashPasswordUtil.HashPassword(newPassword);
        _context.Update(user);
        _context.SaveChanges();
    }

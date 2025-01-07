@@ -15,16 +15,18 @@ public class AuthService : IAuthService
     private readonly IEmailSenderService _emailSenderService;
     private readonly ILogger<AuthService> _logger;
     private readonly JwtSecurityTokenHandler _tokenHandler;
+    private readonly HashPasswordService _hashPasswordUtil;
 
     public AuthService(
         DataContext context,
         IEmailSenderService emailSenderService,
-        ILogger<AuthService> logger)
+        ILogger<AuthService> logger,JwtSecurityTokenHandler jwtSecurityTokenHandler , HashPasswordService hashPasswordUtil)
     {
         _context = context;
         _emailSenderService = emailSenderService;
         _logger = logger;
-        _tokenHandler = new JwtSecurityTokenHandler();
+        _tokenHandler = jwtSecurityTokenHandler;
+        _hashPasswordUtil = hashPasswordUtil;
     }
 
     public string Login(string email, string password)
@@ -35,7 +37,7 @@ public class AuthService : IAuthService
         if (user.AccountLockedUntil.HasValue && user.AccountLockedUntil > DateTime.UtcNow)
             throw new InvalidOperationException("Account is locked. Try again later.");
 
-        if (!VerifyPassword(password, user.Password))
+        if (!_hashPasswordUtil.VerifyPassword(password, user.Password))
         {
             HandleFailedLogin(user);
             throw new ArgumentException("Invalid password");
@@ -62,7 +64,7 @@ public class AuthService : IAuthService
         if (_context.Users.Any(u => u.Email == email))
             throw new ArgumentException("Email already exists");
 
-        var hashedPassword = HashPassword(password);
+        var hashedPassword = _hashPasswordUtil.HashPassword(password);
         var verificationToken = CryptoUtil.GenerateRandomToken();
 
         var user = new User
@@ -123,7 +125,7 @@ public class AuthService : IAuthService
         var user = _context.Users.SingleOrDefault(u => u.ResetPasswordToken == resetPasswordToken);
         if (user == null) throw new ArgumentException("Invalid reset token");
 
-        user.Password = HashPassword(newPassword);
+        user.Password = _hashPasswordUtil.HashPassword(newPassword);
         user.ResetPasswordToken = null;
         user.ResetPasswordExpiry = null;
 
@@ -162,17 +164,7 @@ public class AuthService : IAuthService
         return _tokenHandler.WriteToken(token);
     }
 
-    private bool VerifyPassword(string password, string hashedPassword)
-    {
-        // TODO
-        return true;
-    }
-
-    private string HashPassword(string password)
-    {
-        // TODO
-        return password;
-    }
+   
 
     private void SaveSession(User user, string token)
     {
