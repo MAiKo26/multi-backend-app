@@ -36,8 +36,6 @@ export async function getAllUsersByTeam(
   try {
     const teamId = Number(req.params.team);
 
-    console.log(teamId);
-
     const allUsersByTeam = await db.query.teamMembers.findMany({
       where: eq(teamMembers.teamId, teamId),
       with: {
@@ -57,7 +55,6 @@ export async function getAllUsersByTeam(
 
     res.status(200).json(allUsersByTeam.map((item) => item.users));
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }

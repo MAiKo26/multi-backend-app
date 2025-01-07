@@ -70,18 +70,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       where: eq(sessions.email, user.email),
     });
 
-    console.log("here");
-
-    console.log(session);
-
-    console.log("here2");
-
-    console.log(session?.expiresAt.getTime());
-    console.log(Date.now());
-
     if (session && session.expiresAt.getTime() > Date.now()) {
-      console.log("here23");
-
       res.status(200).json({token: session.sessionId});
     } else {
       const token = jwt.sign(
@@ -96,14 +85,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         }
       );
 
-      console.log("Token creation:");
-      console.log("Payload:", {email: user.email, role: user.role});
-      console.log("Secret used:", secret);
-      console.log("Generated token:", token);
-
       try {
         const decoded = jwt.verify(token, secret);
-        console.log("Token verified:", decoded);
       } catch (error) {
         console.error("Token verification failed:", error);
       }

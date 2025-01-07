@@ -27,8 +27,6 @@ export const authenticateToken = (
     throw new CustomError("No Token Provided", 401);
   }
 
-  console.log(token);
-
   try {
     const decoded = jwt.verify(token, secret) as {
       email: string;
@@ -37,13 +35,9 @@ export const authenticateToken = (
       exp: number;
     };
 
-    console.log(decoded);
-
     req.user = decoded;
     next();
   } catch (error) {
-    console.log("i guess", error);
-
     next(new CustomError("Invalid Token", 403));
   }
 };

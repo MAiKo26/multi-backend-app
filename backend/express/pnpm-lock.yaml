@@ -8,6 +8,9 @@ dependencies:
   '@libsql/client':
     specifier: ^0.14.0
     version: 0.14.0
+  '@types/ws':
+    specifier: ^8.5.13
+    version: 8.5.13
   bcrypt:
     specifier: ^5.1.1
     version: 5.1.1
@@ -26,9 +29,9 @@ dependencies:
   express-rate-limit:
     specifier: ^7.5.0
     version: 7.5.0(express@4.21.2)
-  i:
-    specifier: ^0.3.7
-    version: 0.3.7
+  express-ws:
+    specifier: ^5.0.2
+    version: 5.0.2(express@4.21.2)
   jsonwebtoken:
     specifier: ^9.0.2
     version: 9.0.2
@@ -41,6 +44,9 @@ dependencies:
   pg:
     specifier: ^8.13.1
     version: 8.13.1
+  ws:
+    specifier: ^8.18.0
+    version: 8.18.0
 
 devDependencies:
   '@types/bcrypt':
@@ -52,6 +58,9 @@ devDependencies:
   '@types/express':
     specifier: ^5.0.0
     version: 5.0.0
+  '@types/express-ws':
+    specifier: ^3.0.5
+    version: 3.0.5
   '@types/jsonwebtoken':
     specifier: ^9.0.7
     version: 9.0.7
@@ -67,6 +76,9 @@ devDependencies:
   drizzle-kit:
     specifier: ^0.30.0
     version: 0.30.0
+  i:
+    specifier: ^0.3.7
+    version: 0.3.7
   ts-node:
     specifier: ^10.9.2
     version: 10.9.2(@types/node@22.10.2)(typescript@5.7.2)
@@ -917,6 +929,14 @@ packages:
       '@types/send': 0.17.4
     dev: true
 
+  /@types/express-ws@3.0.5:
+    resolution: {integrity: sha512-lbWMjoHrm/v85j81UCmb/GNZFO3genxRYBW1Ob7rjRI+zxUBR+4tcFuOpKKsYQ1LYTYiy3356epLeYi/5zxUwA==}
+    dependencies:
+      '@types/express': 5.0.0
+      '@types/express-serve-static-core': 5.0.2
+      '@types/ws': 8.5.13
+    dev: true
+
   /@types/express@5.0.0:
     resolution: {integrity: sha512-DvZriSMehGHL1ZNLzi6MidnsDhUZM/x2pRdDIKdwbUNqqwHxMlRdkxtn6/EPKyqKpHqTl/4nRZsRNLpZxZRpPQ==}
     dependencies:
@@ -991,7 +1011,6 @@ packages:
     resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
     dependencies:
       '@types/node': 22.10.2
-    dev: false
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -1556,6 +1575,19 @@ packages:
       express: 4.21.2
     dev: false
 
+  /express-ws@5.0.2(express@4.21.2):
+    resolution: {integrity: sha512-0uvmuk61O9HXgLhGl3QhNSEtRsQevtmbL94/eILaliEADZBHZOQUAiHFrGPrgsjikohyrmSG5g+sCfASTt0lkQ==}
+    engines: {node: '>=4.5.0'}
+    peerDependencies:
+      express: ^4.0.0 || ^5.0.0-alpha.1
+    dependencies:
+      express: 4.21.2
+      ws: 7.5.10
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
   /express@4.21.2:
     resolution: {integrity: sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==}
     engines: {node: '>= 0.10.0'}
@@ -1759,7 +1791,7 @@ packages:
   /i@0.3.7:
     resolution: {integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==}
     engines: {node: '>=0.4'}
-    dev: false
+    dev: true
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -2579,6 +2611,19 @@ packages:
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+    dev: false
+
+  /ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
+    engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: false
 
   /ws@8.18.0:
