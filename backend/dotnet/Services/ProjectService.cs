@@ -9,12 +9,12 @@ public class ProjectService : IProjectService
 {
     
     private readonly DataContext _context;
-   private readonly TeamService _teamService;
-   private readonly UserService _userService;
+   private readonly ITeamService _teamService;
+   private readonly IUserService _userService;
    private readonly ActivityHistoryService _activityService;
 
-   public ProjectService(DataContext context, TeamService teamService, 
-       UserService userService, ActivityHistoryService activityService)
+   public ProjectService(DataContext context, ITeamService teamService, 
+       IUserService userService, ActivityHistoryService activityService)
    {
        _context = context;
        _teamService = teamService;

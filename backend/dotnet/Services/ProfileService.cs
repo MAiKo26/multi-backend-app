@@ -10,17 +10,19 @@ public class ProfileService : IProfileService
 {
     
      private readonly DataContext _context;
-   private readonly UserService _userService;
+   private readonly IUserService _userService;
    private readonly IPasswordHasher<User> _passwordHasher;
 
-   public ProfileService(DataContext context, UserService userService, IPasswordHasher<User> passwordHasher)
+   public ProfileService(DataContext context, IUserService userService, IPasswordHasher<User> passwordHasher)
    {
        _context = context;
        _userService = userService;
        _passwordHasher = passwordHasher;
-   }
+        _userService = userService;
 
-   public User GetCurrentUser()
+    }
+
+    public User GetCurrentUser()
    {
        var email = _userService.GetCurrentUserEmail();
        return _context.Users.FirstOrDefault(u => u.Email == email) ?? 

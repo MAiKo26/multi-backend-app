@@ -9,9 +9,9 @@ namespace dotnet.Services;
 public class TaskService : ITaskService
 {
     private readonly DataContext _context;
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public TaskService(DataContext context, UserService userService)
+    public TaskService(DataContext context, IUserService userService)
     {
         _context = context;
         _userService = userService;

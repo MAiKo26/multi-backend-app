@@ -8,9 +8,9 @@ namespace dotnet.Services;
 public class ActivityHistoryService : IActivityHistoryService
 {
     private readonly DataContext _context;
-    private readonly UserService _userService; 
+    private readonly IUserService _userService; 
 
-    public ActivityHistoryService(DataContext context, UserService userService)
+    public ActivityHistoryService(DataContext context, IUserService userService)
     {
         _context = context;
         _userService = userService;
