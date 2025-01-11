@@ -16,7 +16,7 @@ import { userInterface } from "@/interfaces/userInterface";
 export function AppSidebar({
   user,
   ...props
-}: { user: userInterface | null } & React.ComponentProps<typeof Sidebar>) {
+}: { user: userInterface } & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar
       collapsible="icon"
@@ -24,7 +24,7 @@ export function AppSidebar({
       className="bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50"
     >
       <SidebarHeader className="bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50">
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher {...user} />
       </SidebarHeader>
       <SidebarContent className="bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50">
         <NavMain items={data.navMain} user={user} />

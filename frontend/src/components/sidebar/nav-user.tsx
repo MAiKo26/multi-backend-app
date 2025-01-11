@@ -1,13 +1,11 @@
-"use client";
-
 import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
   Settings2,
   Sparkles,
+  UserRoundCog,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,11 +26,13 @@ import {
 } from "@/components/ui/sidebar";
 import { data } from "@/constants/place-holder-data";
 import { logOut } from "@/lib/auth-repo";
+import { Link } from "react-router";
 
 export function NavUser({
   name = data.user.name,
   avatar = data.user.avatar,
   email = data.user.email,
+  role = data.user.role,
 }) {
   const { isMobile } = useSidebar();
 
@@ -80,29 +80,46 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              {/* <Link to="/upgrade-to-pro"> */}
+              <DropdownMenuItem disabled>
                 <Sparkles />
                 Upgrade to Pro
               </DropdownMenuItem>
+              {/* </Link> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings2 />
-                Settings
-              </DropdownMenuItem>
+              <Link to="/account">
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Account
+                </DropdownMenuItem>
+              </Link>
+              <Link to="/notifications">
+                <DropdownMenuItem>
+                  <Bell />
+                  Notifications
+                </DropdownMenuItem>
+              </Link>
+              <Link to="/settings">
+                <DropdownMenuItem>
+                  <Settings2 />
+                  Settings
+                </DropdownMenuItem>
+              </Link>
+              {role === "admin" ? (
+                <Link to="/admin-panel">
+                  <DropdownMenuItem>
+                    <UserRoundCog />
+                    Admin Panel
+                  </DropdownMenuItem>
+                </Link>
+              ) : (
+                <DropdownMenuItem disabled>
+                  <UserRoundCog />
+                  Admin Panel
+                </DropdownMenuItem>
+              )}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => logOut()}>
@@ -116,7 +133,7 @@ export function NavUser({
   );
 }
 
-function AvatarFallBackInitials({
+export function AvatarFallBackInitials({
   name,
   email,
 }: {
