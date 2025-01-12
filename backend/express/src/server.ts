@@ -16,6 +16,7 @@ import ProjectsRoutes from "./routes/projectsRoutes.ts";
 import TasksRoutes from "./routes/tasksRoutes.ts";
 import TeamsRoutes from "./routes/teamsRoutes.ts";
 import UsersRoutes from "./routes/usersRoutes.ts";
+import ChatRoutes from "./routes/chatRoutes.ts";
 import {
   connectGeneralChat,
   connectPrivateChat,
@@ -48,6 +49,8 @@ app.use("/projects", authenticateToken, ProjectsRoutes);
 app.use("/profile", authenticateToken, ProfileRoutes);
 app.use("/tasks", authenticateToken, TasksRoutes);
 app.use("/activity", authenticateToken, ActivityRoutes);
+
+app.use("/chat/history", authenticateToken, ChatRoutes);
 
 app.ws("/chat", connectGeneralChat);
 app.ws("/chat/:privateChat", connectPrivateChat);

@@ -165,29 +165,33 @@ export const activityHistoryRelations = relations(activityHistory, ({one}) => ({
   }),
 }));
 
+export const chatRooms = t.pgTable("chat_rooms", {
+  id: t.text("room_id").notNull().primaryKey(),
+});
+
+export const chatRoomsRelations = relations(chatRooms, ({many}) => ({
+  chatMessages: many(chatMessages),
+}));
+
+export const chatMessages = t.pgTable("chat_messages", {
+  id: t.serial("message_id").notNull().primaryKey(),
+  roomId: t
+    .text("room_id")
+    .references(() => chatRooms.id, {onDelete: "cascade"}),
+  senderId: t.text("sender_id").references(() => users.email),
+  content: t.text("content").notNull(),
+  createdAt: t.timestamp("created_at").notNull().defaultNow(),
+  readBy: t.text("read_by").references(() => users.email),
+});
+
+export const chatMessagesRelations = relations(chatMessages, ({one}) => ({
+  chatRooms: one(chatRooms, {
+    fields: [chatMessages.roomId],
+    references: [chatRooms.id],
+  }),
+}));
+
 //  TODO
-
-// export const chatRooms = t.pgTable("chat_rooms", {
-//   id: t.text("room_id").notNull().primaryKey(),
-//   name: t.text("name").notNull(),
-//   type: t.text("type").notNull(),
-//   createdAt: t.timestamp("created_at").notNull().defaultNow(),
-//   createdBy: t
-//     .text("created_by")
-//     .notNull()
-//     .references(() => users.email),
-// });
-
-// export const chatMessages = t.pgTable("chat_messages", {
-//   id: t.text("message_id").notNull().primaryKey(),
-//   roomId: t
-//     .text("room_id")
-//     .references(() => chatRooms.id, {onDelete: "cascade"}),
-//   senderId: t.text("sender_id").references(() => users.email),
-//   content: t.text("content").notNull(),
-//   createdAt: t.timestamp("created_at").notNull().defaultNow(),
-//   readBy: t.text("read_by").references(() => users.email),
-// });
 
 // export const subscriptions = t.pgTable("subscriptions", {
 //   id: t.text("subscription_id").notNull().primaryKey(),

@@ -1,4 +1,4 @@
-import {eq} from "drizzle-orm";
+import {and, count, eq, exists, gt} from "drizzle-orm";
 import {NextFunction, Request, Response} from "express";
 import {db} from "../db/db.ts";
 import {sessions, teamMembers, users} from "../db/schema.ts";
@@ -88,6 +88,34 @@ export async function getUserDetailsBySession(
       .limit(1);
 
     res.status(200).json(userWithSession[0]);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getConnectedUsers(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const connectedUsers = await db
+      .select({email: users.email})
+      .from(users)
+      .where(
+        exists(
+          db
+            .select()
+            .from(sessions)
+            .where(
+              and(
+                eq(sessions.email, users.email),
+                gt(sessions.expiresAt, new Date())
+              )
+            )
+        )
+      );
+    res.status(200).json(connectedUsers);
   } catch (error) {
     next(error);
   }
