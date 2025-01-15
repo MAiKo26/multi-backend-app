@@ -53,6 +53,10 @@ export interface TaskComments {
   createdAt: string;
 }
 
+interface connectedUsersInterface {
+  email: string;
+}
+
 export interface AppState {
   // Auth State
   isAuthenticated: boolean;
@@ -61,6 +65,7 @@ export interface AppState {
   // User State
   currentUser: userInterface | null;
   allUsers: userInterface[];
+  connectedUsers: connectedUsersInterface[];
 
   // Team State
   currentTeam: Team | null;
@@ -94,6 +99,7 @@ export interface AppState {
   setTeams: (teams: Team[]) => void;
   setTasks: (tasks: Task[]) => void;
   setLoading: (key: keyof AppState["isLoading"], value: boolean) => void;
+  setConnectedUsers: (connectedUsers: connectedUsersInterface[]) => void;
 
   // Fetch Actions
   fetchCurrentUser: () => Promise<void>;
@@ -101,6 +107,7 @@ export interface AppState {
   fetchUserProjects: () => Promise<void>;
   fetchAllActivities: () => Promise<void>;
   fetchTasks: () => Promise<void>;
+  fetchConnectedUsers: () => Promise<void>;
 
   // Auth Actions
   logout: () => void;
@@ -122,6 +129,7 @@ const useStore = create<AppState>()(
       projects: [],
       tasks: [],
       activityHistory: [],
+      connectedUsers: [],
       isLoading: {
         user: true,
         users: false,
@@ -146,6 +154,7 @@ const useStore = create<AppState>()(
       setProjects: (projects) => set({ projects }),
       setTeams: (teams) => set({ teams }),
       setTasks: (tasks) => set({ tasks }),
+      setConnectedUsers: (connectedUsers) => set({ connectedUsers }),
       setActivityHistory: (activity) => set({ activityHistory: activity }),
       setLoading: (key, value) =>
         set((state) => ({
@@ -157,8 +166,6 @@ const useStore = create<AppState>()(
         const state = get();
         try {
           state.setLoading("user", true);
-          console.log("heyyyy");
-          console.log(state.isLoading.user);
 
           const user = await fetchUserDetails();
           if (!user) {
@@ -179,6 +186,23 @@ const useStore = create<AppState>()(
           if (!state.token) return;
           const users = await fetchUsers(state.token);
           set({ allUsers: users });
+        } catch (error) {
+          console.error("Failed to fetch users:", error);
+        } finally {
+          state.setLoading("users", false);
+        }
+      },
+
+      fetchConnectedUsers: async () => {
+        const state = get();
+        try {
+          state.setLoading("users", true);
+          if (!state.token) return;
+          const response = await fetch("http://localhost:3636/users/online", {
+            headers: { Authorization: `Bearer ${state.token}` },
+          });
+          const connectedUsers = await response.json();
+          set({ connectedUsers: connectedUsers });
         } catch (error) {
           console.error("Failed to fetch users:", error);
         } finally {

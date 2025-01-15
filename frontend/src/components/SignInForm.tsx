@@ -24,10 +24,12 @@ import { Input } from "./ui/input";
 import { TabsContent } from "./ui/tabs";
 import { useState } from "react";
 import LoadingButton from "./LoadingButton";
+import useStore from "../store/useStore";
 
 function SignInForm() {
   const [loadingButtonState, setLoadingButtonState] = useState(false);
   const { toast } = useToast();
+  const { setToken } = useStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,9 +57,12 @@ function SignInForm() {
         });
         const response = await res.json();
         sessionStorage.setItem("authToken", response.token);
-        window.location.href = "/";
+        setToken(response.token);
+
+        window.location.href = "/dashboard";
       } else {
         const response = await res.json();
+
         toast({
           title: "Error",
           description: response.message,

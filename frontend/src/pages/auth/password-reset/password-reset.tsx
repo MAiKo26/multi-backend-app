@@ -55,8 +55,6 @@ function PasswordReset() {
         },
       );
 
-      console.log("ayoo");
-
       const result = await response.json();
       const status = await response.status;
 

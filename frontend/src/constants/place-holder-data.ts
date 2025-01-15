@@ -1,11 +1,4 @@
-import {
-  AudioWaveform,
-  Command,
-  FolderKanban,
-  GalleryVerticalEnd,
-  MessageSquareText,
-  SquareTerminal,
-} from "lucide-react";
+import { FolderKanban, MessageSquareText, SquareTerminal } from "lucide-react";
 
 // This is sample data.
 export const data = {
@@ -13,45 +6,29 @@ export const data = {
     name: "Mohamed Aziz Karoui",
     email: "contact@maiko26.tn",
     avatar: "/avatars/shadcn.jpg",
+    role: "user",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Playground",
-      url: "#",
+      url: "/dashboard",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
           title: "Dashboard",
-          url: "/",
+          url: "/dashboard",
         },
         {
-          title: "Tasks",
+          title: "My Finished Tasks",
           url: "/tasks",
         },
         {
-          title: "History",
+          title: "My History",
           url: "/history",
         },
         {
-          title: "Starred",
+          title: "My Stars",
           url: "/starred",
         },
       ],
@@ -59,34 +36,20 @@ export const data = {
 
     {
       title: "Chat",
-      url: "#",
+      url: "/chat",
       icon: MessageSquareText,
       items: [
         {
-          title: "General Team Chat",
-          url: "chat",
+          title: "General",
+          url: "/chat",
         },
       ],
     },
 
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: FolderKanban,
-      items: [
-        {
-          title: "Design Engineering ",
-          url: "#",
-        },
-        {
-          title: "Sales & Marketing",
-          url: "#",
-        },
-        {
-          title: "Travel",
-          url: "#",
-        },
-      ],
     },
   ],
 };

@@ -6,4 +6,6 @@ export interface userInterface {
   role: string;
   avatar: string;
   lastLogin: string;
+  stars: number;
+  online: boolean;
 }

@@ -33,18 +33,30 @@ function SignUpForm() {
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
   async function SignUp(values: z.infer<typeof formSchema>) {
     try {
       setLoadingButtonState(true);
+
+      // Create FormData and append fields
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("name", values.name);
+
+      if (values.avatar && values.avatar.length > 0) {
+        formData.append("avatar", values.avatar[0]); // Attach the first file
+      }
+      if (values.phoneNumber) {
+        formData.append("phoneNumber", values.phoneNumber);
+      }
+
       const res = await fetch("http://localhost:3636/auth/register", {
-        headers: {
-          "Content-Type": "application/json",
-        },
         method: "POST",
-        body: JSON.stringify(values),
+        body: formData, // Use FormData for the request body
       });
 
       if (res.status === 200) {
@@ -131,6 +143,61 @@ function SignUpForm() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="avatar"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Avatar</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Select an avatar"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            field.onChange(e.target.files);
+                          }}
+                          onBlur={field.onBlur}
+                          name={field.name}
+                          ref={field.ref}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Your Full Name"
+                          type="text"
+                          {...field}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+216 ..." type="tel" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </CardContent>
               <CardFooter className="m-0 flex h-full w-full flex-col items-center justify-between gap-2">
                 <LoadingButton loading={loadingButtonState} type="submit">
@@ -157,4 +224,7 @@ const formSchema = z.object({
     .regex(/[A-Z]/, { message: "Password must contain an uppercase letter" })
     .regex(/[a-z]/, { message: "Password must contain a lowercase letter" })
     .regex(/[0-9]/, { message: "Password must contain a number" }),
+  name: z.string().min(1, { message: "This field has to be filled." }),
+  avatar: z.instanceof(FileList).optional(),
+  phoneNumber: z.string().optional(),
 });

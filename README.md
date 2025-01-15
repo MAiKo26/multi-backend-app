@@ -170,7 +170,7 @@ Follow the README instructions in each backend directory to set up and run the A
 | User Profile Page                  | ✅ Completed   |
 | UI for the app                     | ✅ Completed   |
 | Notifications UI                   | 🔜 Not Started |
-| Real-Time WebSocket Chat UI        | 🔜 Not Started |
+| Real-Time WebSocket Chat UI        | 🚧 In Progress |
 | External API Integration           | 🔜 Not Started |
 
 ---
@@ -179,13 +179,13 @@ Follow the README instructions in each backend directory to set up and run the A
 
 | Feature                     | Backend-Express | Backend-SpringBoot | Backend-DotNet |
 | --------------------------- | --------------- | ------------------ | -------------- |
-| Authentication System       | ✅ Completed    | ✅ Completed       | 🚧 In Progress |
-| User Profile Management     | ✅ Completed    | ✅ Completed       | 🔜 Not Started |
-| File Storage and Management | ✅ Completed    | ✅ Completed       | 🔜 Not Started |
-| Bunch of CRUD               | ✅ Completed    | 🔜 Not Started     | 🔜 Not Started |
-| Real-Time WebSocket Chat    | 🔜 Not Started  | 🔜 Not Started     | 🔜 Not Started |
-| Multi-Role Access Control   | ✅ Completed    | ✅ Completed       | 🔜 Not Started |
-| Notifications System        | 🚧 In Progress  | 🚧 In Progress     | 🔜 Not Started |
+| Authentication System       | ✅ Completed    | ✅ Completed       | ✅ Completed   |
+| User Profile Management     | ✅ Completed    | ✅ Completed       | ✅ Completed   |
+| File Storage and Management | ✅ Completed    | ✅ Completed       | 🚧 In Progress |
+| Bunch of CRUD               | ✅ Completed    | 🔜 Not Started     | ✅ Completed   |
+| Real-Time WebSocket Chat    | 🚧 In Progress  | 🔜 Not Started     | 🔜 Not Started |
+| Multi-Role Access Control   | ✅ Completed    | ✅ Completed       | ✅ Completed   |
+| Notifications System        | 🚧 In Progress  | 🚧 In Progress     | 🚧 In Progress |
 
 ---
 

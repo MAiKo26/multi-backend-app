@@ -7,7 +7,7 @@ import { SidebarMenuSubButton, SidebarMenuSubItem } from "../ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
 
 function ChatSearch({ currentUser }: { currentUser: userInterface }) {
-  const { allUsers, isLoading } = useStore();
+  const { allUsers, isLoading, connectedUsers } = useStore();
   const [search, setSearch] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<userInterface[]>([]);
 
@@ -35,6 +35,7 @@ function ChatSearch({ currentUser }: { currentUser: userInterface }) {
             const sortedEmails = [currentUser.email, user.email]
               .sort()
               .join("");
+
             const hashedHref = Array.from(
               new Uint8Array(new TextEncoder().encode(sortedEmails)),
             )
@@ -48,8 +49,10 @@ function ChatSearch({ currentUser }: { currentUser: userInterface }) {
                     className="flex w-full justify-between"
                   >
                     <span className="shrink truncate">{user.name}</span>
-                    {user.online ? (
-                      <div className="h-3 w-3 rounded-full bg-gray-600" />
+                    {connectedUsers.some(
+                      (connectedUser) => connectedUser.email === user.email,
+                    ) ? (
+                      <div className="h-3 w-3 rounded-full bg-green-600" />
                     ) : (
                       <div className="h-3 w-3 rounded-full bg-gray-600" />
                     )}

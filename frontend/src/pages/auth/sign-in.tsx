@@ -11,7 +11,7 @@ function Login() {
 
   if (!verifyAuth()) {
     toast({ title: "You are already logged in" });
-    return <Navigate to="/" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return (
