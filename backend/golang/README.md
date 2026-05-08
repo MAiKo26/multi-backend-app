@@ -1,33 +1,83 @@
-# Golang Gin GORM starter
+# Golang Backend
 
-This repository contains a starter template for rapid microservice development
-with Go. It uses [Gin](https://github.com/gin-gonic/gin) and
-[GORM](https://gorm.io).
+A Go/Gin REST API (currently a starter template).
 
-## Installation
-* Get the repository from GitHub
-``` bash
-git clone git@github.com:henvo/golang-gin-gorm-starter.git
-```
-* Install dependencies
-``` bash
-go get
-```
+## Prerequisites
 
-* Run app
-```
+- **Go** 1.15+
+- **Database**: PostgreSQL
+
+## Quick Start (CLI - VS Code Integrated Terminal)
+
+```bash
+cd golang
+
+# Install dependencies
+go mod tidy
+
+# Create environment file
+copy .env.example .env
+# Edit .env with your database credentials
+
+# Run the application
 go run main.go
 ```
 
-## Things to consider
-* Rename all instances of `github.com/henvo/golang-gin-gorm/` to your package
-* Switch from the default database driver (mysql) to sqlite, postgresql, ...
+The API will be available at `http://localhost:8000`
 
-## Env variables
+## Available Go Commands
 
-* PORT (Default: `8080`)
-* GIN_MODE (Default: `debug`)
-* DATABASE_HOST (Default: `localhost:3306`)
-* DATABASE_NAME (Default: `go_test`)
-* DATABASE_USERNAME (Default: `golang`)
-* DATABASE_PASSWORD (Default: `golang`)
+| Command | Description |
+|---------|-------------|
+| `go run main.go` | Start development server |
+| `go build` | Build the binary |
+| `go test` | Run tests |
+| `go mod tidy` | Clean up dependencies |
+
+## Installing Packages
+
+```bash
+# Add a package
+go get github.com/package/name
+
+# Example
+go get github.com/gin-gonic/gin
+```
+
+## Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+PORT=8000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=yourpassword
+DB_NAME=mydb
+```
+
+## Project Structure
+
+```
+golang/
+├── main.go           # Entry point
+├── config/           # Database config
+├── models/           # Data models
+├── handlers/         # HTTP handlers
+├── go.mod
+└── go.sum
+```
+
+## Current Status
+
+⚠️ This is a basic starter template with only:
+- Basic User CRUD operations
+- GORM database setup
+
+The following features are NOT yet implemented:
+- Authentication (JWT)
+- Teams, Projects, Tasks
+- WebSocket/Chat
+- Profile management
+- Activity logging
