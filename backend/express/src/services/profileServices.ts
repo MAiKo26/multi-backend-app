@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import {eq} from "drizzle-orm";
 import {NextFunction, Request, Response} from "express";
 import {db} from "../db/db.ts";
@@ -9,7 +9,7 @@ import {logActivity} from "../lib/activity-logger.ts";
 export async function getUserProfile(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userEmail = req.user?.email as string;
@@ -44,7 +44,7 @@ export async function getUserProfile(
 export async function updateProfile(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userEmail = req.user?.email as string;
@@ -63,7 +63,7 @@ export async function updateProfile(
 
     await logActivity(
       userEmail,
-      `Updated profile${avatar ? " and changed avatar" : ""}`
+      `Updated profile${avatar ? " and changed avatar" : ""}`,
     );
 
     res.status(200).json(updatedUser[0]);
@@ -76,7 +76,7 @@ export async function updateProfile(
 export async function updatePassword(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userEmail = req.user?.email as string;
@@ -109,7 +109,7 @@ export async function updatePassword(
 export async function updateNotificationSettings(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userEmail = req.user?.email as string;

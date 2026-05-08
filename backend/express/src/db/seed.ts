@@ -14,7 +14,7 @@ import {
   taskComments,
   UserRole,
 } from "./schema.ts";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
 async function hashPassword(password: string) {
@@ -85,7 +85,7 @@ export async function seed() {
         userEmail: user.email,
         emailDigest: true,
         taskReminders: true,
-      }))
+      })),
     );
     console.log("User settings seeded.");
 

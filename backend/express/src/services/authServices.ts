@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import {eq, gt, sql} from "drizzle-orm";
 import {NextFunction, Request, Response, Router} from "express";
@@ -82,7 +82,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         {
           expiresIn: "1h",
           algorithm: "HS256",
-        }
+        },
       );
 
       try {
@@ -148,7 +148,7 @@ export async function logout(req: Request, res: Response, next: NextFunction) {
 export async function register(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const {email, password, name, phoneNumber} = req.body as {
@@ -206,7 +206,7 @@ export async function register(
 export async function registerVerification(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const {verificationToken} = req.body as {
@@ -239,7 +239,7 @@ export async function registerVerification(
 export async function passwordReset(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const {email} = req.body;
@@ -287,7 +287,7 @@ export async function passwordReset(
 export async function passwordResetVerification(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const {resetPasswordToken} = req.body as {resetPasswordToken: string};
@@ -300,7 +300,7 @@ export async function passwordResetVerification(
       .set({resetPasswordToken: null, resetPasswordExpiry: null})
       .where(
         eq(users.resetPasswordToken, resetPasswordToken) &&
-          gt(users.resetPasswordExpiry, now)
+          gt(users.resetPasswordExpiry, now),
       )
       .returning();
 
@@ -318,7 +318,7 @@ export async function passwordResetVerification(
 export async function passwordResetConfirmation(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const {resetPasswordToken, newPassword} = req.body;

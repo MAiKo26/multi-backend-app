@@ -8,6 +8,7 @@ lerna-debug.log*
 .pnpm-debug.log*
 
 postgres-data
+postgres_data
 
 uploads
 
