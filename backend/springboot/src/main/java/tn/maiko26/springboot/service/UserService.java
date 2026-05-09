@@ -10,6 +10,7 @@ import tn.maiko26.springboot.model.User;
 import tn.maiko26.springboot.model.relations.TeamMember;
 import tn.maiko26.springboot.repository.SessionRepository;
 import tn.maiko26.springboot.repository.TeamMemberRepository;
+import tn.maiko26.springboot.repository.TeamRepository;
 import tn.maiko26.springboot.repository.UserRepository;
 
 import java.util.List;
@@ -25,17 +26,18 @@ public class UserService {
 
     @Autowired
     private SessionRepository sessionRepository;
-    @Autowired
-    private TeamService teamService;
 
-    // Get all users
+    @Autowired
+    private TeamRepository teamRepository;
+
+// Get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // Get all users by team
     public List<TeamMember> getAllUsersByTeam(String teamId) {
-        return teamMemberRepository.findAllByTeam(teamService.getTeamById(teamId));
+        return teamMemberRepository.findAllByTeam(teamRepository.findById(teamId).orElse(null));
     }
 
     // Get user details by session

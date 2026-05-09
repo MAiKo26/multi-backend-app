@@ -15,7 +15,7 @@ public class EmailSenderService {
 
     public void sendVerificationEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jewel.green12@ethereal.email");
+        message.setFrom("norma.stiedemann@ethereal.email");
         message.setTo(email);
         message.setSubject("Verify your email");
         message.setText("Click here to verify: http://localhost:5173/auth/email-confirmation/" + token);
@@ -24,7 +24,7 @@ public class EmailSenderService {
 
     public void sendResetEmail (String email, String token){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jewel.green12@ethereal.email");
+        message.setFrom("norma.stiedemann@ethereal.email");
         message.setTo(email);
         message.setSubject("Password Reset Code");
         message.setText("Your password reset code is:: http://localhost:5173/auth/password-reset/" + token);

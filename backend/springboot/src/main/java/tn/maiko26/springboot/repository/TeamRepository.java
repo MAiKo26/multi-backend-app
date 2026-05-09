@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, String> {
 
     @Query("SELECT t FROM Team t " +
-            "JOIN t.teamMembers tm " +
-            "WHERE tm.email = :email")
+            "JOIN t.members tm " +
+            "WHERE tm.user.email = :email")
     List<Team> findTeamsByUserEmail(@Param("email") String email);
 }
