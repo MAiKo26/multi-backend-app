@@ -9,7 +9,7 @@ lerna-debug.log*
 
 postgres-data
 postgres_data
-
+AGENTS.md
 uploads
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
