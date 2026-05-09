@@ -185,7 +185,7 @@ export async function register(
     });
 
     transporter.sendMail({
-      from: "jewel.green12@ethereal.email",
+      from: "norma.stiedemann@ethereal.email",
       to: email,
       subject: "Verify your email",
 
@@ -266,7 +266,7 @@ export async function passwordReset(
 
     // Send the email
     const mailOptions = {
-      from: "jewel.green12@ethereal.email", // Sender address
+      from: "norma.stiedemann@ethereal.email", // Sender address
       to: email, // Receiver address
       subject: "Password Reset Code",
       html: `<p>
