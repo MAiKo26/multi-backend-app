@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -18,7 +19,9 @@ namespace dotnet.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
+        [JsonIgnore]
         public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
+        [JsonIgnore]
         public ICollection<Project> Projects { get; set; } = new List<Project>();
     }
 }

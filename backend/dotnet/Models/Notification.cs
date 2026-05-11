@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -35,6 +36,7 @@ namespace dotnet.Models
         public string? Link { get; set; }
 
         // Navigation property
+        [JsonIgnore]
         public ICollection<UserNotification> UserNotifications { get; set; } = new List<UserNotification>();
     }
 }

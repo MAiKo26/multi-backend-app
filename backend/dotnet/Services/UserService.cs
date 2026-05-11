@@ -70,6 +70,15 @@ namespace dotnet.Services
             return GetUserByEmail(email);
         }
 
+        public IEnumerable<string> GetOnlineUsers()
+        {
+            return _context.Sessions
+                .Where(s => s.ExpiresAt > DateTime.UtcNow)
+                .Select(s => s.Email)
+                .Distinct()
+                .ToList();
+        }
+
     }
 
 

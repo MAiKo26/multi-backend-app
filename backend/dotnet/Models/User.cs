@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet.Models
@@ -82,12 +83,19 @@ namespace dotnet.Models
         public bool PushNotifications { get; set; } = true;
 
         // Navigation properties
+        [JsonIgnore]
         public ActivityHistory? ActivityHistory { get; set; }
+        [JsonIgnore]
         public UserSetting? UserSettings { get; set; }
+        [JsonIgnore]
         public ICollection<Session> Sessions { get; set; } = new List<Session>();
+        [JsonIgnore]
         public ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
+        [JsonIgnore]
         public ICollection<UserNotification> UserNotifications { get; set; } = new List<UserNotification>();
+        [JsonIgnore]
         public ICollection<TaskComment> TaskComments { get; set; } = new List<TaskComment>();
+        [JsonIgnore]
         public ICollection<StarredTask> StarredTasks { get; set; } = new List<StarredTask>();
     }
 }

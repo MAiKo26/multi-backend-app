@@ -14,11 +14,10 @@ public class ProjectController : ControllerBase
         _projectService = projectService;
     }
 
-    [HttpGet]
-    public IActionResult GetAllProjects([FromBody] string teamId)
+    [HttpGet("{teamId}")]
+    public IActionResult GetAllProjects(string teamId)
     {
         var userProject = _projectService.GetAllProjects(teamId);
-
         return Ok(userProject);
     }
 

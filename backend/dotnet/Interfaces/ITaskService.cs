@@ -5,6 +5,7 @@ namespace dotnet.Interfaces;
 
 public interface ITaskService
 {
+    IEnumerable<Task> GetAllTasks();
     IEnumerable<Task> GetAllTasksForProject(string projectId);
     void CreateTask(Task task);
     void UpdateTask(string name, string description, bool finished, string taskId);

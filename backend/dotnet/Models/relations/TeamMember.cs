@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -14,7 +15,9 @@ namespace dotnet.Models
         public string Email { get; set; } = string.Empty;
 
         // Navigation properties
+        [JsonIgnore]
         public Team Team { get; set; } = null!;
+        [JsonIgnore]
         public User User { get; set; } = null!;
     }
 }

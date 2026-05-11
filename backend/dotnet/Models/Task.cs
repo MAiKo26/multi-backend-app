@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -39,9 +40,13 @@ namespace dotnet.Models
         public string? FinishedBy { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public Project Project { get; set; } = null!;
+        [JsonIgnore]
         public User? FinishedByUser { get; set; }
+        [JsonIgnore]
         public ICollection<TaskComment> TaskComments { get; set; } = new List<TaskComment>();
+        [JsonIgnore]
         public ICollection<StarredTask> StarredTasks { get; set; } = new List<StarredTask>();
     }
 }

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -21,6 +21,7 @@ namespace dotnet.Models
         public DateTime DoneAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
+        [JsonIgnore]
         public User User { get; set; } = null!;
 
     }

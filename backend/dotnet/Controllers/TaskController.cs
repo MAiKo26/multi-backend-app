@@ -23,6 +23,14 @@ public class TaskController : ControllerBase
         return Ok(allTasks);
     }
 
+    [HttpGet]
+    public IActionResult GetAllTasks()
+    {
+        var allTasks = _taskService.GetAllTasks();
+
+        return Ok(allTasks);
+    }
+
     [HttpPost]
     public IActionResult CreateTask([FromBody] Task task)
     {
@@ -48,7 +56,7 @@ public class TaskController : ControllerBase
         return Ok();
     }
 
-    [HttpPost(":taskId/comments")]
+    [HttpPost("{taskId}/comments")]
     public IActionResult AddCommentToTask([FromBody] AddCommentToTaskRequest request)
     {
         _taskService.AddCommentToTask(request.taskId, request.comment);
@@ -56,7 +64,7 @@ public class TaskController : ControllerBase
         return Ok();
     }
 
-    [HttpPost(":taskId/star")]
+    [HttpPost("{taskId}/star")]
     public IActionResult StarringTask([FromBody] StarTaskRequest request)
     {
         _taskService.StarringTask(request.taskId, request.email);

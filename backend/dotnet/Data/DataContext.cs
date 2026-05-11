@@ -23,6 +23,8 @@ namespace dotnet.Data
         public DbSet<TaskComment> TaskComments { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<ChatRoom> ChatRooms { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

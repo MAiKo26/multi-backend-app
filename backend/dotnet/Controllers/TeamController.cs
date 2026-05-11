@@ -55,12 +55,11 @@ public class TeamController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("/teamsbyuser/{email}")]
-    public IActionResult GetTeamsByUser([FromQuery] string email)
+    [HttpGet("byuser/{email}")]
+    public IActionResult GetTeamsByUser(string email)
     {
-        _teamService.GetTeamsByUser(email);
-
-        return Ok();
+        var teams = _teamService.GetTeamsByUser(email);
+        return Ok(teams);
     }
 }
 

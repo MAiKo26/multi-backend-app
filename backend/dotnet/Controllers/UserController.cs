@@ -26,5 +26,33 @@ namespace dotnet.Controllers
             var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users); 
             return Ok(usersDTO);
         }
+
+        [HttpGet("team/{teamId}")]
+        public IActionResult GetUsersByTeam(string teamId)
+        {
+            var teamMembers = _userService.GetAllUsersByTeam(teamId);
+            return Ok(teamMembers);
+        }
+
+    [HttpGet("session/{sessionId}")]
+    public IActionResult GetUserBySession(string sessionId)
+    {
+        var user = _userService.GetUserDetailsBySession(sessionId);
+        return Ok(user);
+    }
+
+    [HttpGet("bysession/{sessionId}")]
+    public IActionResult GetUserBySessionAlt(string sessionId)
+    {
+        var user = _userService.GetUserDetailsBySession(sessionId);
+        return Ok(user);
+    }
+
+    [HttpGet("online")]
+        public IActionResult GetOnlineUsers()
+        {
+            var onlineUsers = _userService.GetOnlineUsers();
+            return Ok(onlineUsers.Select(email => new { email }));
+        }
     }
 }

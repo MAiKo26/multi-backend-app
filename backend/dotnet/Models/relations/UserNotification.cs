@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models;
 
@@ -13,7 +14,9 @@ public class UserNotification
     public string NotificationId { get; set; } = string.Empty;
 
     // Navigation properties
+    [JsonIgnore]
     public User User { get; set; } = null!;
+    [JsonIgnore]
     public Notification Notification { get; set; } = null!;
 }
 

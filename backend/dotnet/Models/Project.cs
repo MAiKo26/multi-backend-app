@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -23,8 +24,11 @@ namespace dotnet.Models
         public int TeamId { get; set; }
 
         // Navigation properties
+        [JsonIgnore]
         public Team Team { get; set; } = null!;
+        [JsonIgnore]
         public ICollection<Task> Tasks { get; set; } = new List<Task>();
+        [JsonIgnore]
         public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
     }
 }

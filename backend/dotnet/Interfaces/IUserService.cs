@@ -15,4 +15,5 @@ public interface IUserService
 
     IEnumerable<TeamMember> GetAllUsersByTeam(string teamId);
 
+    IEnumerable<string> GetOnlineUsers();
 }

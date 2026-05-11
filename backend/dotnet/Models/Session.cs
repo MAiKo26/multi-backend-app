@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace dotnet.Models
 {
@@ -22,6 +23,7 @@ namespace dotnet.Models
         public DateTime ExpiresAt { get; set; }
 
         // Navigation property
+        [JsonIgnore]
         public User User { get; set; } = null!;
     }
 }
